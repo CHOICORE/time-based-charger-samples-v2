@@ -12,7 +12,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 
 @Entity
-class ChargerUnit(
+class ChargerStrategyEntity(
     val policyId: Long,
     val dayOfWeek: DayOfWeek,
     val specifiedDate: LocalDate? = null,

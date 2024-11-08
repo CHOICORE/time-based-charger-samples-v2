@@ -13,7 +13,7 @@ import java.time.LocalTime
 @DataJpaTest
 @TestConstructor(autowireMode = ALL)
 class ChargerRepositoryTests(
-    private val chargerUnitJpaRepository: ChargerUnitJpaRepository,
+    private val chargerStrategyJpaRepository: ChargerStrategyJpaRepository,
 ) {
     @Test
     fun t1() {
@@ -24,8 +24,8 @@ class ChargerRepositoryTests(
                     TimeSlot(LocalTime.of(6, 0), LocalTime.of(12, 0)),
                 ),
             )
-        val chargerUnit =
-            ChargerUnit(
+        val chargerStrategyEntity =
+            ChargerStrategyEntity(
                 1,
                 SUNDAY,
                 specifiedDate = null,
@@ -34,8 +34,8 @@ class ChargerRepositoryTests(
                 timeline = timeline,
             )
 
-        chargerUnitJpaRepository.save(chargerUnit)
+        chargerStrategyJpaRepository.save(chargerStrategyEntity)
 
-        chargerUnitJpaRepository.findByPolicyId(1).also { println(it) }
+        chargerStrategyJpaRepository.findByPolicyId(1).also { println(it) }
     }
 }

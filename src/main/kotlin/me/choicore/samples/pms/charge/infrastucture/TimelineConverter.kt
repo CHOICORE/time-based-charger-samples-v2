@@ -7,7 +7,7 @@ import me.choicore.samples.pms.charge.domain.Timeline
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 
 @Converter(autoApply = true)
-class TimelineAttributeConverter : AttributeConverter<Timeline, String> {
+class TimelineConverter : AttributeConverter<Timeline, String> {
     private val objectMapper: ObjectMapper = Jackson2ObjectMapperBuilder.json().build()
 
     override fun convertToDatabaseColumn(timeline: Timeline): String = objectMapper.writeValueAsString(timeline)
