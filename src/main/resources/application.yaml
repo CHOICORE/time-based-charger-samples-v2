@@ -1,0 +1,13 @@
+spring.application.name: settlements
+
+spring:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        generate_statistics: true
+        show_sql: true
+        format_sql: true
+        highlight_sql: true
