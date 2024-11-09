@@ -1,10 +1,10 @@
 package me.choicore.samples.pms.charge.presentation.request
 
-import me.choicore.samples.pms.charge.domain.ChargingMode
+import me.choicore.samples.bak.ChargingMode
 import me.choicore.samples.pms.charge.domain.Timeline
 import java.time.LocalDate
 
-data class OneTimeScheduleRequest(
+data class SpecifiedDateChargingStrategiesRequest(
     val events: List<OneTimeScheduleDto> = emptyList(),
 ) {
     data class OneTimeScheduleDto(

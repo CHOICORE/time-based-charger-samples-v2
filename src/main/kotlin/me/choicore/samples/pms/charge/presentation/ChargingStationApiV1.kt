@@ -16,5 +16,10 @@ class ChargingStationApiV1(
     fun create(
         @RequestBody request: ChargingStationRequest,
     ) {
+        chargingStationManager.register(request.toChargingStationRegistration())
+    }
+
+    fun specificDateStrategies() {
+        // 특정 날짜만 등록함
     }
 }

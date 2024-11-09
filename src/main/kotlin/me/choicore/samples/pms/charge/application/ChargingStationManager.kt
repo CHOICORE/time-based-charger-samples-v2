@@ -1,15 +1,13 @@
 package me.choicore.samples.pms.charge.application
 
-import me.choicore.samples.pms.charge.domain.ChargingStationRegistration
-import me.choicore.samples.pms.charge.domain.DayOfWeekChargingStrategies
-import me.choicore.samples.pms.charge.domain.RecurringSchedule
+import me.choicore.samples.pms.charge.domain.ChargingStationRegistrar
 import org.springframework.stereotype.Service
 
 @Service
-class ChargingStationManager {
-    fun register(chargingStationRegistration: ChargingStationRegistration) {
-        val recurringSchedules: List<RecurringSchedule> = chargingStationRegistration.standard
-        val dayOfWeekChargingStrategies = DayOfWeekChargingStrategies()
-        dayOfWeekChargingStrategies.register(recurringSchedules)
+class ChargingStationManager(
+    private val chargingStationRegistrar: ChargingStationRegistrar,
+) {
+    fun register(registration: ChargingStationRegistration) {
+        chargingStationRegistrar.register(station = registration.toChargingStation())
     }
 }

@@ -8,14 +8,14 @@ sealed interface ChargingStrategiesContainer<K, S : ChargingStrategy> {
     fun register(strategy: S)
 
     fun register(vararg strategies: S) {
-        strategies.forEach { register(it) }
+        strategies.forEach { this.register(it) }
     }
 
-    fun register(strategies: Collection<S>) {
-        strategies.forEach { register(it) }
+    fun register(strategies: List<S>) {
+        strategies.forEach { this.register(it) }
     }
 
     fun getChargingStrategies(date: LocalDate): List<S>
 
-    fun getKey(strategy: ChargingStrategy): K
+    fun getAll(): List<S> = strategies.values.flatten()
 }

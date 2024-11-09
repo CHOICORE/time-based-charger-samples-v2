@@ -1,9 +1,10 @@
 package me.choicore.samples.pms.charge.domain
 
-import java.time.LocalDate
+import me.choicore.samples.bak.ChargingMode
+import java.time.DayOfWeek
 
-data class OneTimeSchedule(
-    val specifiedDate: LocalDate,
+data class RecurringChargingStrategy(
+    val dayOfWeek: DayOfWeek,
     override val mode: ChargingMode,
     override val rate: Int,
     override val timeline: Timeline,

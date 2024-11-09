@@ -1,13 +1,15 @@
-package me.choicore.samples.pms.charge.domain
+package me.choicore.samples.bak
 
+import me.choicore.samples.pms.charge.domain.OneTimeChargingStrategy
+import me.choicore.samples.pms.charge.domain.RecurringChargingStrategy
 import java.time.DayOfWeek
 import java.time.LocalDate
 
 object ScheduleValidators {
-    object RecurringScheduleValidator : AbstractScheduleValidator<DayOfWeek, RecurringSchedule>() {
+    object RecurringScheduleValidator : AbstractScheduleValidator<DayOfWeek, RecurringChargingStrategy>() {
         override fun validate(
             basis: DayOfWeek,
-            schedules: List<RecurringSchedule>,
+            schedules: List<RecurringChargingStrategy>,
         ) {
             val invalid: List<DayOfWeek> =
                 schedules
@@ -22,10 +24,10 @@ object ScheduleValidators {
         }
     }
 
-    object SpecifiedDateScheduleValidator : AbstractScheduleValidator<LocalDate, OneTimeSchedule>() {
+    object SpecifiedDateScheduleValidator : AbstractScheduleValidator<LocalDate, OneTimeChargingStrategy>() {
         override fun validate(
             basis: LocalDate,
-            schedules: List<OneTimeSchedule>,
+            schedules: List<OneTimeChargingStrategy>,
         ) {
             val invalid: List<LocalDate> =
                 schedules

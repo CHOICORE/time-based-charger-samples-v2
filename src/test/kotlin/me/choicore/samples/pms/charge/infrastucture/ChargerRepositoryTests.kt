@@ -1,6 +1,6 @@
 package me.choicore.samples.pms.charge.infrastucture
 
-import me.choicore.samples.pms.charge.domain.ChargingMode.DISCHARGE
+import me.choicore.samples.bak.ChargingMode.DISCHARGE
 import me.choicore.samples.pms.charge.domain.TimeSlot
 import me.choicore.samples.pms.charge.domain.Timeline
 import org.junit.jupiter.api.Test
@@ -13,7 +13,7 @@ import java.time.LocalTime
 @DataJpaTest
 @TestConstructor(autowireMode = ALL)
 class ChargerRepositoryTests(
-    private val chargerStrategyJpaRepository: ChargerStrategyJpaRepository,
+    private val chargerStrategyJpaRepository: ChargerStrategyEntityRepository,
 ) {
     @Test
     fun t1() {
@@ -25,7 +25,7 @@ class ChargerRepositoryTests(
                 ),
             )
         val chargerStrategyEntity =
-            ChargerStrategyEntity(
+            ChargingStationEntity(
                 1,
                 SUNDAY,
                 specifiedDate = null,

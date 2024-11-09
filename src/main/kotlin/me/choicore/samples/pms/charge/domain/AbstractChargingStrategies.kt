@@ -1,6 +1,6 @@
 package me.choicore.samples.pms.charge.domain
 
-abstract class AbstractChargingStrategiesContainer<K, S : ChargingStrategy> : ChargingStrategiesContainer<K, S> {
+abstract class AbstractChargingStrategies<K, S : ChargingStrategy> : ChargingStrategiesContainer<K, S> {
     private val _strategies: MutableMap<K, MutableList<S>> = mutableMapOf()
     override val strategies: Map<K, List<S>> = _strategies.toMap()
 
@@ -14,4 +14,6 @@ abstract class AbstractChargingStrategiesContainer<K, S : ChargingStrategy> : Ch
 
         existingStrategies.add(element = strategy)
     }
+
+    protected abstract fun getKey(strategy: ChargingStrategy): K
 }

@@ -1,11 +1,12 @@
 package me.choicore.samples.pms.charge.presentation.request
 
-import me.choicore.samples.pms.charge.domain.ChargingMode
-import me.choicore.samples.pms.charge.domain.RecurringSchedule
+import me.choicore.samples.bak.ChargingMode
+import me.choicore.samples.pms.charge.domain.RecurringChargingStrategies
+import me.choicore.samples.pms.charge.domain.RecurringChargingStrategy
 import me.choicore.samples.pms.charge.domain.Timeline
 import java.time.DayOfWeek
 
-data class StandardScheduleRequest(
+data class DayOfWeekChargingStrategiesRequest(
     val sun: List<RecurringScheduleDto>? = emptyList(),
     val mon: List<RecurringScheduleDto>? = emptyList(),
     val tue: List<RecurringScheduleDto>? = emptyList(),
@@ -20,8 +21,8 @@ data class StandardScheduleRequest(
         val rate: Int,
         val timeline: List<TimeSlotRequest>,
     ) {
-        fun toRecurringSchedule(): RecurringSchedule =
-            RecurringSchedule(
+        fun toRecurringSchedule(): RecurringChargingStrategy =
+            RecurringChargingStrategy(
                 dayOfWeek = this.dayOfWeek,
                 mode = this.mode,
                 rate = this.rate,
@@ -29,8 +30,11 @@ data class StandardScheduleRequest(
             )
     }
 
-    fun toRecurringSchedules(): List<RecurringSchedule> =
-        listOfNotNull(this.sun, this.mon, this.tue, this.wed, this.thu, this.fri, this.sat)
-            .flatten()
-            .map { it.toRecurringSchedule() }
+    fun toDayOfWeekChargingStrategies(): RecurringChargingStrategies {
+        val settings: List<RecurringChargingStrategy> =
+            listOfNotNull(this.sun, this.mon, this.tue, this.wed, this.thu, this.fri, this.sat)
+                .flatten()
+                .map { it.toRecurringSchedule() }
+        return RecurringChargingStrategies(settings)
+    }
 }

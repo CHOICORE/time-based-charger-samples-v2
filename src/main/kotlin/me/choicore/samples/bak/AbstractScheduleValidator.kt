@@ -1,4 +1,7 @@
-package me.choicore.samples.pms.charge.domain
+package me.choicore.samples.bak
+
+import me.choicore.samples.pms.charge.domain.ChargingStrategy
+import me.choicore.samples.pms.charge.domain.TimeSlot
 
 abstract class AbstractScheduleValidator<K, S : ChargingStrategy> : ScheduleValidator<K, S> {
     protected fun validateMismatchSchedule(

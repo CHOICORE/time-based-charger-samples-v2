@@ -1,6 +1,6 @@
 package me.choicore.samples.pms.charge.presentation.request
 
-import me.choicore.samples.pms.charge.domain.ChargingStationRegistration
+import me.choicore.samples.pms.charge.application.ChargingStationRegistration
 import java.time.LocalDate
 
 data class ChargingStationRequest(
@@ -11,7 +11,7 @@ data class ChargingStationRequest(
     val endsOn: LocalDate? = null,
     val exemptionThreshold: Int,
     val dischargeAmount: Int,
-    val standard: StandardScheduleRequest,
+    val settings: DayOfWeekChargingStrategiesRequest,
 ) {
     fun toChargingStationRegistration(): ChargingStationRegistration =
         ChargingStationRegistration(
@@ -22,6 +22,6 @@ data class ChargingStationRequest(
             endsOn = this.endsOn,
             exemptionThreshold = this.exemptionThreshold,
             dischargeAmount = this.dischargeAmount,
-            standard = this.standard.toRecurringSchedules(),
+            settings = this.settings.toDayOfWeekChargingStrategies(),
         )
 }
