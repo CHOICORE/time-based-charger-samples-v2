@@ -17,7 +17,7 @@ class SpecifiedDateChargingStrategyEntity(
     rate: Int,
     timeline: Timeline,
     val specifiedDate: LocalDate,
-) : ChargingStrategyAttribute(
+) : ChargingStrategyAttributeEntity(
         complexId = complexId,
         method = method,
         rate = rate,

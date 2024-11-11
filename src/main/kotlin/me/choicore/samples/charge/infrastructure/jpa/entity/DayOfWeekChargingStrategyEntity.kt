@@ -21,7 +21,7 @@ class DayOfWeekChargingStrategyEntity(
     val stationId: Long,
     @Enumerated(value = STRING)
     val dayOfWeek: DayOfWeek,
-) : ChargingStrategyAttribute(
+) : ChargingStrategyAttributeEntity(
         complexId = complexId,
         method = method,
         rate = rate,

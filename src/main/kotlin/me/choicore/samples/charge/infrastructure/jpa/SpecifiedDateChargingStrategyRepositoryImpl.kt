@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 import java.time.LocalDate
 
 @Repository
-class SpecifiedDateChargingStrategyJpaRepository(
+class SpecifiedDateChargingStrategyRepositoryImpl(
     private val specifiedDateChargingStrategyEntityRepository: SpecifiedDateChargingStrategyEntityRepository,
 ) : SpecifiedDateChargingStrategyRepository {
     override fun findBySpecifiedDate(

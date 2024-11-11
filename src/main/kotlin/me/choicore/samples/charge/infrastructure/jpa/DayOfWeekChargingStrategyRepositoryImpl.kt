@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 import java.time.DayOfWeek
 
 @Repository
-class DayOfWeekChargingStrategyJpaRepository(
+class DayOfWeekChargingStrategyRepositoryImpl(
     private val dayOfWeekChargingStrategyEntityRepository: DayOfWeekChargingStrategyEntityRepository,
 ) : DayOfWeekChargingStrategyRepository {
     override fun findByDayOfWeek(dayOfWeek: DayOfWeek): List<DayOfWeekChargingStrategy> {

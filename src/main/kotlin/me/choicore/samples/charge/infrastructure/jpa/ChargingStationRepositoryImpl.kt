@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
-class ChargingStationJpaRepository(
+class ChargingStationRepositoryImpl(
     private val chargingStationEntityRepository: ChargingStationEntityRepository,
     private val dayOfWeekChargingStrategyEntityRepository: DayOfWeekChargingStrategyEntityRepository,
 ) : ChargingStationRepository {

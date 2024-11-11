@@ -23,7 +23,7 @@ import me.choicore.samples.common.jpa.AutoIncrement
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "strategy_type", discriminatorType = DiscriminatorType.STRING)
 @AttributeOverride(name = "_id", column = Column(name = "strategy_id"))
-abstract class ChargingStrategyAttribute(
+abstract class ChargingStrategyAttributeEntity(
     val complexId: Long,
     @Enumerated(value = STRING)
     val method: ChargingMethod,
