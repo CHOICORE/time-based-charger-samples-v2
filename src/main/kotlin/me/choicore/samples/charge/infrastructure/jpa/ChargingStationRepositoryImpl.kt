@@ -25,7 +25,7 @@ class ChargingStationRepositoryImpl(
         val chargingStationId: Long = saved.id
         val complexId: Long = saved.complexId
 
-        station.dayOfWeekChargingStrategies.getAll().forEach { strategy ->
+        station.dayOfWeekChargingStrategies.all.forEach { strategy ->
             val chargingStrategy: DayOfWeekChargingStrategy =
                 strategy.copy(
                     identifier =

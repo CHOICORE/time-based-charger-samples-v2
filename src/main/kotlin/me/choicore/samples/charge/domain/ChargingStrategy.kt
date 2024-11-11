@@ -7,6 +7,7 @@ sealed interface ChargingStrategy {
     val identifier: ChargingStrategyIdentifier
     val mode: ChargingMode
     val timeline: Timeline
+    val period: Period
 
     sealed interface ChargingStrategyIdentifier {
         val strategyId: Long
@@ -15,15 +16,27 @@ sealed interface ChargingStrategy {
 
     fun supports(date: LocalDate): Boolean
 
+    fun attempt(chargingUnit: ChargingUnit) {
+        require(value = this.supports(date = chargingUnit.chargedOn)) { "The specified date does not satisfy the timeline." }
+        chargingUnit.adjust(strategy = this)
+    }
+
     interface DayOfWeekChargingStrategy : ChargingStrategy {
         val dayOfWeek: DayOfWeek
+        override val period: Period get() = Period.REPEATABLE
 
         override fun supports(date: LocalDate): Boolean = date.dayOfWeek == this.dayOfWeek
     }
 
     interface SpecifiedDateChargingStrategy : ChargingStrategy {
         val specifiedDate: LocalDate
+        override val period: Period get() = Period.ONCE
 
         override fun supports(date: LocalDate): Boolean = date == this.specifiedDate
+    }
+
+    enum class Period {
+        REPEATABLE,
+        ONCE,
     }
 }

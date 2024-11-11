@@ -31,9 +31,13 @@ class Charger(
             var currentChargedOn: LocalDate = chargingTarget.lastChargedOn ?: chargingTarget.arrivedOn
             while (currentChargedOn <= chargedOn) {
                 val chargingUnit: ChargingUnit = chargingTarget.getChargingUnit(chargedOn = currentChargedOn)
-                val chargingStrategies = specifiedDateChargingStrategies.getChargingStrategies(date = currentChargedOn)
-
-                if (chargingStrategies.isEmpty()) {
+                val chargingStrategies: List<SpecifiedDateChargingStrategy> =
+                    specifiedDateChargingStrategies.getChargingStrategies(date = currentChargedOn)
+                if (chargingStrategies.isNotEmpty()) {
+                    chargingStrategies.forEach { chargingStrategy: SpecifiedDateChargingStrategy ->
+                        chargingStrategy.attempt(chargingUnit = chargingUnit)
+                    }
+                } else {
                     val chargingStation: ChargingStation = chargingStationSelector.select(chargedOn = chargedOn)
                     val dayOfWeekChargingStrategies: DayOfWeekChargingStrategies =
                         chargingStation.dayOfWeekChargingStrategies

@@ -15,11 +15,31 @@ data class ChargingUnit(
         require(this.startTime.isBefore(this.endTime)) { "The start time must be before the end time." }
     }
 
+    fun adjust(strategy: ChargingStrategy) {
+        require(strategy.supports(this.chargedOn)) { "The specified date does not satisfy the timeline." }
+
+        strategy.timeline.slots.forEach { slot ->
+            val basis: TimeSlot = slot
+            val applied: TimeSlot? = slot.extractWithin(this.startTime, this.endTime)
+            if (applied != null) {
+                this.addAdjustment(
+                    Adjustment(
+                        strategyId = strategy.identifier.strategyId,
+                        mode = strategy.mode,
+                        rate = strategy.mode.rate,
+                        basis = basis,
+                        applied = applied,
+                    ),
+                )
+            }
+        }
+    }
+
     data class ChargingUnitIdentifier(
         private val _unitId: Long? = null,
         val targetId: Long,
     ) {
-        val unitId: Long = _unitId ?: throw IllegalStateException("The unit ID must be provided.")
+        val unitId: Long get() = _unitId ?: throw IllegalStateException("The unit ID must be provided.")
 
         companion object {
             fun unregistered(targetId: Long): ChargingUnitIdentifier =
@@ -47,6 +67,7 @@ data class ChargingUnit(
     }
 
     data class Adjustment(
+        val strategyId: Long,
         val mode: ChargingMode,
         val rate: Int,
         val basis: TimeSlot,

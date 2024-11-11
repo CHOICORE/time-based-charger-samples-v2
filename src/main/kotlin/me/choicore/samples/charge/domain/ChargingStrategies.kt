@@ -2,9 +2,7 @@ package me.choicore.samples.charge.domain
 
 import java.time.LocalDate
 
-sealed interface ChargingStrategies<K, S : ChargingStrategy> {
-    val strategies: Map<K, List<S>>
-
+sealed interface ChargingStrategies<S : ChargingStrategy> {
     fun register(strategy: S)
 
     fun register(strategies: List<S>) {
@@ -12,6 +10,4 @@ sealed interface ChargingStrategies<K, S : ChargingStrategy> {
     }
 
     fun getChargingStrategies(date: LocalDate): List<S>
-
-    fun getAll(): List<S> = strategies.values.flatten()
 }
