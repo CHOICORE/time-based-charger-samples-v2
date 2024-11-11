@@ -64,4 +64,22 @@ class Timeline {
     override fun hashCode(): Int = this._slots.hashCode()
 
     override fun toString(): String = "Timeline(slots=${this._slots})"
+
+    companion object {
+        fun remain(excludedTimeSlots: List<TimeSlot>): Timeline {
+            val existingTimeSlots: List<TimeSlot> = excludedTimeSlots.sortedBy { it.startTimeInclusive }
+            val remainingTimeline = Timeline()
+            var previous: LocalTime = LocalTime.MIDNIGHT
+            existingTimeSlots.forEach { slot ->
+                if (slot.startTimeInclusive > previous) {
+                    remainingTimeline.addSlot(startTimeInclusive = previous, endTimeInclusive = slot.startTimeInclusive)
+                }
+                previous = slot.endTimeInclusive
+            }
+            if (previous < LocalTime.MAX) {
+                remainingTimeline.addSlot(startTimeInclusive = previous, endTimeInclusive = LocalTime.MAX)
+            }
+            return remainingTimeline
+        }
+    }
 }

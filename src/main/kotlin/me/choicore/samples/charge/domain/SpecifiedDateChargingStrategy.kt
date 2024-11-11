@@ -27,6 +27,8 @@ data class SpecifiedDateChargingStrategy(
                 complexId: Long,
             ): SpecifiedDateChargingStrategyIdentifier =
                 SpecifiedDateChargingStrategyIdentifier(_strategyId = strategyId, complexId = complexId)
+
+            fun empty(): SpecifiedDateChargingStrategyIdentifier = SpecifiedDateChargingStrategyIdentifier(complexId = 0)
         }
     }
 }

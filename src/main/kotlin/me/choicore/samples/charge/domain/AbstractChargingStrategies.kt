@@ -1,8 +1,10 @@
 package me.choicore.samples.charge.domain
 
-abstract class AbstractChargingStrategies<K, S : ChargingStrategy> : ChargingStrategies<S> {
-    protected val strategies: MutableMap<K, MutableList<S>> = mutableMapOf()
+import java.time.LocalDate
+import java.time.temporal.TemporalAdjuster
 
+abstract class AbstractChargingStrategies<K : TemporalAdjuster, S : ChargingStrategy> : ChargingStrategies<S> {
+    protected val strategies: MutableMap<K, MutableList<S>> = mutableMapOf()
     val all: List<S> get() = this.strategies.values.flatten()
 
     override fun register(strategy: S) {
@@ -15,6 +17,13 @@ abstract class AbstractChargingStrategies<K, S : ChargingStrategy> : ChargingStr
 
         existingStrategies.add(element = strategy)
     }
+
+    protected fun getOverallTimeSlots(strategies: List<S>): List<TimeSlot> = strategies.flatMap { it.timeline.slots }
+
+    protected fun getRemainingTimeline(exclusiveTimeSlots: List<TimeSlot>): Timeline =
+        Timeline.remain(excludedTimeSlots = exclusiveTimeSlots)
+
+    protected abstract fun getKeyForDate(date: LocalDate): K
 
     protected abstract fun getKey(strategy: S): K
 }

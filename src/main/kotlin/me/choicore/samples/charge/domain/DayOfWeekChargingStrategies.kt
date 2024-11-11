@@ -1,5 +1,6 @@
 package me.choicore.samples.charge.domain
 
+import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy.DayOfWeekChargingStrategyIdentifier
 import java.time.DayOfWeek
 import java.time.LocalDate
 
@@ -7,10 +8,6 @@ class DayOfWeekChargingStrategies() : AbstractChargingStrategies<DayOfWeek, DayO
     constructor(schedules: List<DayOfWeekChargingStrategy>) : this() {
         super.register(schedules)
     }
-
-    override fun getChargingStrategies(date: LocalDate): List<DayOfWeekChargingStrategy> = getStrategiesForDay(date.dayOfWeek)
-
-    override fun getKey(strategy: DayOfWeekChargingStrategy): DayOfWeek = strategy.dayOfWeek
 
     val sunday: List<DayOfWeekChargingStrategy> get() = getStrategiesForDay(DayOfWeek.SUNDAY)
 
@@ -26,5 +23,28 @@ class DayOfWeekChargingStrategies() : AbstractChargingStrategies<DayOfWeek, DayO
 
     val saturday: List<DayOfWeekChargingStrategy> get() = getStrategiesForDay(DayOfWeek.SATURDAY)
 
-    private fun getStrategiesForDay(dayOfWeek: DayOfWeek): List<DayOfWeekChargingStrategy> = super.strategies[dayOfWeek] ?: emptyList()
+    override fun getKeyForDate(date: LocalDate): DayOfWeek = date.dayOfWeek
+
+    override fun getChargingStrategies(date: LocalDate): List<DayOfWeekChargingStrategy> = getStrategiesForDay(date.dayOfWeek)
+
+    override fun getKey(strategy: DayOfWeekChargingStrategy): DayOfWeek = strategy.dayOfWeek
+
+    private fun getStrategiesForDay(dayOfWeek: DayOfWeek): List<DayOfWeekChargingStrategy> {
+        val dayOfWeekChargingStrategies: MutableList<DayOfWeekChargingStrategy>? = super.strategies[dayOfWeek]
+        if (dayOfWeekChargingStrategies.isNullOrEmpty()) {
+            return emptyList()
+        } else {
+            val remainingTimeline: Timeline = Timeline.remain(super.getOverallTimeSlots(dayOfWeekChargingStrategies))
+            dayOfWeekChargingStrategies.add(
+                DayOfWeekChargingStrategy(
+                    identifier = DayOfWeekChargingStrategyIdentifier.empty(),
+                    dayOfWeek = dayOfWeek,
+                    mode = ChargingMode.Standard,
+                    timeline = remainingTimeline,
+                ),
+            )
+        }
+
+        return dayOfWeekChargingStrategies
+    }
 }

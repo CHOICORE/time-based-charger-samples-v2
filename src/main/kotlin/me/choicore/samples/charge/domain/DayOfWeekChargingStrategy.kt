@@ -40,6 +40,8 @@ data class DayOfWeekChargingStrategy(
                     _stationId = stationId,
                     complexId = complexId,
                 )
+
+            fun empty(): DayOfWeekChargingStrategyIdentifier = DayOfWeekChargingStrategyIdentifier(complexId = 0)
         }
     }
 }
