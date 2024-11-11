@@ -30,4 +30,19 @@ class ChargingTargetEntity(
         status = chargingTarget.status,
         lastChargedOn = chargingTarget.lastChargedOn,
     )
+
+    fun toChargingTarget(): ChargingTarget =
+        ChargingTarget(
+            identifier =
+                ChargingTarget.ChargingTargetIdentifier(
+                    complexId = complexId,
+                    building = building,
+                    unit = unit,
+                    licensePlate = licensePlate,
+                ),
+            arrivedAt = arrivedAt,
+            departedAt = departedAt,
+            status = status,
+            lastChargedOn = lastChargedOn,
+        )
 }

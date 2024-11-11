@@ -18,7 +18,7 @@ data class ChargingTarget(
         val unit: String,
         val licensePlate: String,
     ) {
-        val targetId: Long = _targetId ?: throw IllegalStateException("The target ID must be provided.")
+        val targetId: Long get() = _targetId ?: throw IllegalStateException("The target ID must be provided.")
 
         companion object {
             fun unregistered(

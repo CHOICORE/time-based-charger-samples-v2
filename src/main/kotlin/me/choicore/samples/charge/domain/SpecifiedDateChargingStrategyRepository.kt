@@ -8,4 +8,6 @@ interface SpecifiedDateChargingStrategyRepository : ChargingStrategyRepository<S
         identifier: DayOfWeekChargingStrategyIdentifier,
         specifiedDate: LocalDate,
     ): List<SpecifiedDateChargingStrategy>
+
+    fun findAllByComplexId(complexId: Long): List<SpecifiedDateChargingStrategy>
 }

@@ -17,4 +17,8 @@ class SpecifiedDateChargingStrategyRepositoryImpl(
     ): List<SpecifiedDateChargingStrategy> {
         TODO("Not yet implemented")
     }
+
+    override fun findAllByComplexId(complexId: Long): List<SpecifiedDateChargingStrategy> {
+        TODO("Not yet implemented")
+    }
 }

@@ -7,7 +7,7 @@ import me.choicore.samples.charge.domain.Timeline
 
 @Converter(autoApply = true)
 class TimelineConverter(
-    private val objectMapper: ObjectMapper,
+    private val objectMapper: ObjectMapper = ObjectMapper(),
 ) : AttributeConverter<Timeline, String> {
     override fun convertToDatabaseColumn(timeline: Timeline): String = objectMapper.writeValueAsString(timeline)
 
