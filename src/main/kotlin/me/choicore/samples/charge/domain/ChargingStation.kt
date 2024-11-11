@@ -22,10 +22,14 @@ data class ChargingStation(
         companion object {
             fun unregistered(complexId: Long): ChargingStationIdentifier = ChargingStationIdentifier(complexId = complexId)
 
-            fun of(
+            fun registered(
                 stationId: Long,
                 complexId: Long,
             ): ChargingStationIdentifier = ChargingStationIdentifier(_chargingStationId = stationId, complexId = complexId)
         }
+    }
+
+    object Comparators {
+        fun withDefaults(): Comparator<ChargingStation> = compareBy({ it.startsOn == null }, { it.endsOn == null }, { it.startsOn })
     }
 }

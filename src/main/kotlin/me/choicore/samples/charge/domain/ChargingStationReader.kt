@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service
 class ChargingStationReader(
     private val chargingStationRepository: ChargingStationRepository,
 ) {
-    fun getChargingStation(complexId: Long): List<ChargingStation> = chargingStationRepository.findByComplexId(complexId = complexId)
+    fun getChargingStations(complexId: Long): List<ChargingStation> = chargingStationRepository.findAllByComplexId(complexId = complexId)
 }

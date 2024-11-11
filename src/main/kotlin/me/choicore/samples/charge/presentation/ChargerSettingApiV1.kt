@@ -28,7 +28,7 @@ class ChargerSettingApiV1(
 
     @GetMapping("/settings")
     fun getChargerSettings(): ResponseEntity<*> {
-        val chargingStations: List<ChargingStation> = chargingStationReader.getChargingStation(1L)
+        val chargingStations: List<ChargingStation> = chargingStationReader.getChargingStations(1L)
         return ResponseEntity.ok(chargingStations.map { ChargingStationResponse.from(it) })
     }
 }

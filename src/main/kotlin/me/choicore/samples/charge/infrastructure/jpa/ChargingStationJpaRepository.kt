@@ -8,15 +8,15 @@ import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy
 import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy.DayOfWeekChargingStrategyIdentifier
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingStationEntity
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingStationEntityRepository
-import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingStrategyEntity
-import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingStrategyEntityRepository
+import me.choicore.samples.charge.infrastructure.jpa.entity.DayOfWeekChargingStrategyEntity
+import me.choicore.samples.charge.infrastructure.jpa.entity.DayOfWeekChargingStrategyEntityRepository
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
 class ChargingStationJpaRepository(
     private val chargingStationEntityRepository: ChargingStationEntityRepository,
-    private val chargingStrategyEntityRepository: ChargingStrategyEntityRepository,
+    private val dayOfWeekChargingStrategyEntityRepository: DayOfWeekChargingStrategyEntityRepository,
 ) : ChargingStationRepository {
     @Transactional
     override fun save(station: ChargingStation): Long {
@@ -34,27 +34,23 @@ class ChargingStationJpaRepository(
                             stationId = chargingStationId,
                         ),
                 )
-            val strategyEntity = ChargingStrategyEntity(chargingStrategy)
-            chargingStrategyEntityRepository.save(strategyEntity)
+            dayOfWeekChargingStrategyEntityRepository.save(DayOfWeekChargingStrategyEntity(chargingStrategy))
         }
         return chargingStationId
     }
 
-    override fun findByComplexId(complexId: Long): List<ChargingStation> {
+    override fun findAllByComplexId(complexId: Long): List<ChargingStation> {
         val entities: List<ChargingStationEntity> = chargingStationEntityRepository.findByComplexId(complexId)
         val stationIds: List<Long> = entities.map { it.id }
-        val found: List<ChargingStrategyEntity> = chargingStrategyEntityRepository.findByStationIdIn(stationIds)
-        val grouped: Map<Long, List<ChargingStrategyEntity>> = found.groupBy { it.stationId!! }
+        val found: List<DayOfWeekChargingStrategyEntity> =
+            dayOfWeekChargingStrategyEntityRepository.findByStationIdIn(stationIds)
+        val grouped: Map<Long, List<DayOfWeekChargingStrategyEntity>> = found.groupBy { it.stationId }
         return entities
             .map {
-                val stationId = it.id
-                val identity =
-                    ChargingStationIdentifier.of(
-                        stationId = stationId,
-                        complexId = it.complexId,
-                    )
+                val identity: ChargingStationIdentifier =
+                    ChargingStationIdentifier.registered(stationId = it.id, complexId = it.complexId)
                 val strategies: List<DayOfWeekChargingStrategy> =
-                    (grouped[stationId] ?: emptyList()).map { strategy -> strategy.toDayOfWeekChargingStrategy() }
+                    (grouped[it.id] ?: emptyList()).map { strategy -> strategy.toChargingStrategy() }
                 ChargingStation(
                     identifier = identity,
                     name = it.name,

@@ -1,3 +1,11 @@
 package me.choicore.samples.charge.domain
 
-interface SpecifiedDateChargingStrategyRepository : ChargingStrategyRepository<SpecifiedDateChargingStrategy>
+import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy.DayOfWeekChargingStrategyIdentifier
+import java.time.LocalDate
+
+interface SpecifiedDateChargingStrategyRepository : ChargingStrategyRepository<SpecifiedDateChargingStrategy> {
+    fun findBySpecifiedDate(
+        identifier: DayOfWeekChargingStrategyIdentifier,
+        specifiedDate: LocalDate,
+    ): List<SpecifiedDateChargingStrategy>
+}
