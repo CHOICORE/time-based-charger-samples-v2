@@ -21,8 +21,17 @@ class CompositeChargingStrategiesTests {
                             listOf(TimeSlot(LocalTime.of(10, 0), LocalTime.of(12, 0))),
                         ),
                     ),
+                ).repeatable(
+                    DayOfWeekChargingStrategy(
+                        DayOfWeekChargingStrategy.DayOfWeekChargingStrategyIdentifier.registered(2, 2, 1),
+                        LocalDate.now().minusDays(1).dayOfWeek,
+                        Surcharge(20),
+                        Timeline(
+                            listOf(TimeSlot(LocalTime.of(14, 0), LocalTime.of(16, 0))),
+                        ),
+                    ),
                 ).build()
 
-        println(strategies.getChargingStrategies(LocalDate.now()))
+        println(strategies.getChargingStrategies(LocalDate.now().minusDays(1)))
     }
 }
