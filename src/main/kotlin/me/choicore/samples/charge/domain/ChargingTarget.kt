@@ -11,7 +11,7 @@ data class ChargingTarget(
     var status: ChargingStatus,
     var lastChargedOn: LocalDate? = null,
 ) {
-    data class ChargingTargetIdentifier(
+    class ChargingTargetIdentifier private constructor(
         private val _targetId: Long? = null,
         val complexId: Long,
         val building: String,

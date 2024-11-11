@@ -13,7 +13,7 @@ data class DayOfWeekChargingStrategy(
 ) : DayOfWeekChargingStrategy {
     override fun supports(date: LocalDate): Boolean = date.dayOfWeek == this.dayOfWeek
 
-    data class DayOfWeekChargingStrategyIdentifier(
+    class DayOfWeekChargingStrategyIdentifier private constructor(
         private val _strategyId: Long? = null,
         private val _stationId: Long? = null,
         override val complexId: Long,

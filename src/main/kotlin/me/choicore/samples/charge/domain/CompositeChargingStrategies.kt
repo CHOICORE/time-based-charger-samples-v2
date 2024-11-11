@@ -3,7 +3,7 @@ package me.choicore.samples.charge.domain
 import java.time.LocalDate
 
 class CompositeChargingStrategies(
-    private val registries: Map<ChargingStrategy.Period, ChargingStrategies<*>>,
+    private val registries: Map<ChargingStrategy.Period, AbstractChargingStrategies<*, out ChargingStrategy>>,
 ) : ChargingStrategies<ChargingStrategy> {
     constructor() : this(
         mapOf(
@@ -15,7 +15,8 @@ class CompositeChargingStrategies(
     override fun register(strategy: ChargingStrategy) {
         when (strategy.period) {
             ONCE_STRATEGY -> {
-                val specifiedDateChargingStrategy = strategy as SpecifiedDateChargingStrategy
+                val specifiedDateChargingStrategy: SpecifiedDateChargingStrategy =
+                    strategy as SpecifiedDateChargingStrategy
                 (registries[ONCE_STRATEGY] as SpecifiedDateChargingStrategies).register(strategy = specifiedDateChargingStrategy)
             }
 

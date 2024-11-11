@@ -34,7 +34,8 @@ class ChargingTargetEntity(
     fun toChargingTarget(): ChargingTarget =
         ChargingTarget(
             identifier =
-                ChargingTarget.ChargingTargetIdentifier(
+                ChargingTarget.ChargingTargetIdentifier.registered(
+                    targetId = id,
                     complexId = complexId,
                     building = building,
                     unit = unit,

@@ -12,7 +12,7 @@ data class ChargingStation(
     val dischargeAmount: Int,
     val dayOfWeekChargingStrategies: DayOfWeekChargingStrategies,
 ) {
-    data class ChargingStationIdentifier(
+    class ChargingStationIdentifier private constructor(
         private val _chargingStationId: Long? = null,
         val complexId: Long,
     ) {

@@ -12,7 +12,7 @@ data class SpecifiedDateChargingStrategy(
 ) : SpecifiedDateChargingStrategy {
     override fun supports(date: LocalDate): Boolean = date == this.specifiedDate
 
-    data class SpecifiedDateChargingStrategyIdentifier(
+    class SpecifiedDateChargingStrategyIdentifier private constructor(
         private val _strategyId: Long? = null,
         override val complexId: Long,
     ) : ChargingStrategyIdentifier {
