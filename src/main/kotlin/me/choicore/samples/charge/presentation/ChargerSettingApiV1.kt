@@ -1,6 +1,6 @@
 package me.choicore.samples.charge.presentation
 
-import me.choicore.samples.charge.application.MissedChargeProcessingCharger
+import me.choicore.samples.charge.application.MissingChargeBatchProcessor
 import me.choicore.samples.charge.domain.ChargingStation
 import me.choicore.samples.charge.domain.ChargingStationReader
 import me.choicore.samples.charge.domain.ChargingStationRegistrar
@@ -20,7 +20,7 @@ import java.time.LocalDate
 class ChargerSettingApiV1(
     private val chargingStationRegistrar: ChargingStationRegistrar,
     private val chargingStationReader: ChargingStationReader,
-    private val batchProcessingCharger: MissedChargeProcessingCharger,
+    private val batchProcessingCharger: MissingChargeBatchProcessor,
 ) {
     @PostMapping("/settings")
     fun setChargerSettings(

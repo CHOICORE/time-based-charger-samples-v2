@@ -10,8 +10,8 @@ data class ChargingStationResponse(
     val description: String?,
     val startsOn: LocalDate? = null,
     val endsOn: LocalDate? = null,
-    val exemptionThreshold: Int,
-    val dischargeAmount: Int,
+    val exemptionThreshold: Long,
+    val dischargeAmount: Long,
     val settings: DayOfWeekChargingStrategiesResponseDto,
 ) {
     companion object {

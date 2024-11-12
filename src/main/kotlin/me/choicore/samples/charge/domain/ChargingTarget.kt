@@ -11,6 +11,16 @@ data class ChargingTarget(
     var status: ChargingStatus,
     var lastChargedOn: LocalDate? = null,
 ) {
+    val departed: Boolean get() = this.departedAt != null
+
+    val currentChargedOn: LocalDate
+        get() =
+            if (this.lastChargedOn == null) {
+                this.arrivedOn
+            } else {
+                this.lastChargedOn!!.plusDays(1)
+            }
+
     class ChargingTargetIdentifier private constructor(
         private val _targetId: Long? = null,
         val complexId: Long,

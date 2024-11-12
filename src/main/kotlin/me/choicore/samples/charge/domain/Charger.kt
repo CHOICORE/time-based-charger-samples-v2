@@ -16,4 +16,10 @@ class Charger(
         chargingUnitRepository.save(unit)
         chargingTargetRepository.update(target)
     }
+
+    @Transactional
+    fun exempt(target: ChargingTarget) {
+        target.status = ChargingStatus.EXEMPTED
+        chargingTargetRepository.update(target)
+    }
 }

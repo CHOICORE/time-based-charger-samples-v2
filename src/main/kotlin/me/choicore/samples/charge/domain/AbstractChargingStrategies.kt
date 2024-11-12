@@ -26,4 +26,6 @@ abstract class AbstractChargingStrategies<K : TemporalAdjuster, S : ChargingStra
     protected abstract fun getKeyForDate(date: LocalDate): K
 
     protected abstract fun getKey(strategy: S): K
+
+    fun isEmpty(date: LocalDate): Boolean = this.strategies[getKeyForDate(date)].isNullOrEmpty()
 }

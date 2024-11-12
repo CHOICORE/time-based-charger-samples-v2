@@ -8,8 +8,8 @@ data class ChargingStation(
     val description: String?,
     val startsOn: LocalDate? = null,
     val endsOn: LocalDate? = null,
-    val exemptionThreshold: Int,
-    val dischargeAmount: Int,
+    val exemptionThreshold: Long,
+    val dischargeAmount: Long,
     val dayOfWeekChargingStrategies: DayOfWeekChargingStrategies,
 ) {
     class ChargingStationIdentifier private constructor(

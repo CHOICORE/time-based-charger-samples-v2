@@ -1,5 +1,6 @@
 package me.choicore.samples.charge.infrastructure.jpa.entity
 
+import me.choicore.samples.charge.domain.ChargingStatus.CHARGED
 import me.choicore.samples.charge.domain.ChargingStatus.REGISTERED
 import me.choicore.samples.charge.domain.ChargingTarget
 import me.choicore.samples.charge.domain.ChargingTarget.ChargingTargetIdentifier
@@ -40,9 +41,10 @@ class ChargingTargetEntityRepositoryTests(
             ChargingTargetEntity(chargingTarget),
         )
         val targets =
-            chargingTargetEntityRepository.findByComplexIdAndLastChargedOnIsNullOrLastChargedOnLessThanEqual(
+            chargingTargetEntityRepository.findByComplexIdAndLastChargedOnIsNullOrLastChargedOnLessThanEqualAndStatusNot(
                 1,
                 LocalDate.now(),
+                CHARGED,
             )
 
         println(targets)

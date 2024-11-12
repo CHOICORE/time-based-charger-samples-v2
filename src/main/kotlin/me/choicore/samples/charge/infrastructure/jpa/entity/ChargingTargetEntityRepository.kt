@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.time.LocalDate
 
 interface ChargingTargetEntityRepository : JpaRepository<ChargingTargetEntity, Long> {
-    fun findByComplexIdAndLastChargedOnIsNullOrLastChargedOnLessThanEqualAndStatusNot(
+    fun findByComplexIdAndLastChargedOnIsNullOrLastChargedOnLessThanEqualAndStatusIn(
         complexId: Long,
         lastChargedOn: LocalDate,
-        status: ChargingStatus,
+        status: Set<ChargingStatus>,
     ): List<ChargingTargetEntity>
 }
