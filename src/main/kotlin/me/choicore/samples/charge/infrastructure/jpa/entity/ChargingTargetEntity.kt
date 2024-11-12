@@ -1,6 +1,8 @@
 package me.choicore.samples.charge.infrastructure.jpa.entity
 
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType.STRING
+import jakarta.persistence.Enumerated
 import jakarta.persistence.Table
 import me.choicore.samples.charge.domain.ChargingStatus
 import me.choicore.samples.charge.domain.ChargingTarget
@@ -16,8 +18,10 @@ class ChargingTargetEntity(
     val unit: String,
     val licensePlate: String,
     val arrivedAt: LocalDateTime,
-    val departedAt: LocalDateTime?,
+    var departedAt: LocalDateTime?,
+    @Enumerated(STRING)
     var status: ChargingStatus,
+    val commited: Boolean = false,
     var lastChargedOn: LocalDate? = null,
 ) : AutoIncrement() {
     constructor(chargingTarget: ChargingTarget) : this(
@@ -46,4 +50,10 @@ class ChargingTargetEntity(
             status = status,
             lastChargedOn = lastChargedOn,
         )
+
+    fun update(chargingTarget: ChargingTarget) {
+        departedAt = chargingTarget.departedAt
+        status = chargingTarget.status
+        lastChargedOn = chargingTarget.lastChargedOn
+    }
 }

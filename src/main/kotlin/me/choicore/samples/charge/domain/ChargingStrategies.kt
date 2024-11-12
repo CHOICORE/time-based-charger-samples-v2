@@ -9,5 +9,12 @@ sealed interface ChargingStrategies<S : ChargingStrategy> {
         strategies.forEach { this.register(it) }
     }
 
+    fun charge(unit: ChargingUnit) {
+        val chargingStrategies: List<S> = this.getChargingStrategies(date = unit.chargedOn)
+        for (strategy: S in chargingStrategies) {
+            strategy.attempt(unit = unit)
+        }
+    }
+
     fun getChargingStrategies(date: LocalDate): List<S>
 }

@@ -14,13 +14,26 @@ class ChargingUnitEntity(
     val chargedOn: LocalDate,
     val startTime: LocalTime,
     val endTime: LocalTime,
-    var deleted: Boolean = false,
+    val originalAmount: Long,
+    val chargedAmount: Long,
+    var active: Boolean = true,
 ) : AutoIncrement() {
     constructor(chargingUnit: ChargingUnit) : this(
         targetId = chargingUnit.identifier.targetId,
         chargedOn = chargingUnit.chargedOn,
         startTime = chargingUnit.startTime,
         endTime = chargingUnit.endTime,
-        deleted = chargingUnit.deleted,
+        active = chargingUnit.active,
+        originalAmount = chargingUnit.originalAmount,
+        chargedAmount = chargingUnit.chargedAmount,
     )
+
+    fun toChargingUnit(): ChargingUnit =
+        ChargingUnit(
+            identifier = ChargingUnit.ChargingUnitIdentifier.unregistered(this.targetId),
+            chargedOn = this.chargedOn,
+            startTime = this.startTime,
+            endTime = this.endTime,
+            active = this.active,
+        )
 }

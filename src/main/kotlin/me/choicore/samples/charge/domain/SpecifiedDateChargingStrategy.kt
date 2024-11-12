@@ -20,7 +20,7 @@ data class SpecifiedDateChargingStrategy(
 
         companion object {
             fun unregistered(complexId: Long): SpecifiedDateChargingStrategyIdentifier =
-                SpecifiedDateChargingStrategyIdentifier(complexId = complexId)
+                SpecifiedDateChargingStrategyIdentifier(_strategyId = 0, complexId = complexId)
 
             fun registered(
                 strategyId: Long,
@@ -28,7 +28,7 @@ data class SpecifiedDateChargingStrategy(
             ): SpecifiedDateChargingStrategyIdentifier =
                 SpecifiedDateChargingStrategyIdentifier(_strategyId = strategyId, complexId = complexId)
 
-            fun empty(): SpecifiedDateChargingStrategyIdentifier = SpecifiedDateChargingStrategyIdentifier(complexId = 0)
+            fun empty(): SpecifiedDateChargingStrategyIdentifier = SpecifiedDateChargingStrategyIdentifier(_strategyId = 0, complexId = 0)
         }
     }
 }

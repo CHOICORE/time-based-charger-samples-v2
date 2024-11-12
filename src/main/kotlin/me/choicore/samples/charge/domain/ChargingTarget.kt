@@ -66,7 +66,7 @@ data class ChargingTarget(
             if (this.departedOn == chargedOn) {
                 this.departedAt!!.toLocalTime()
             } else {
-                LocalTime.MAX
+                LocalTime.of(23, 59, 59)
             }
 
         return ChargingUnit(

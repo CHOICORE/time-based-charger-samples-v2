@@ -1,10 +1,6 @@
 package me.choicore.samples.charge.presentation.dto.request
 
 import me.choicore.samples.charge.domain.ChargingMethod
-import me.choicore.samples.charge.domain.ChargingMethod.DISCHARGE
-import me.choicore.samples.charge.domain.ChargingMethod.STANDARD
-import me.choicore.samples.charge.domain.ChargingMethod.SURCHARGE
-import me.choicore.samples.charge.domain.ChargingMode
 import me.choicore.samples.charge.domain.DayOfWeekChargingStrategies
 import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy
 import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy.DayOfWeekChargingStrategyIdentifier
@@ -33,16 +29,9 @@ data class DayOfWeekChargingStrategiesRequestDto(
             DayOfWeekChargingStrategy(
                 identifier = DayOfWeekChargingStrategyIdentifier.unregistered(complexId),
                 dayOfWeek = dayOfWeek,
-                mode = this.toChargingMode(),
+                mode = this.mode.toChargingMode(rate = this.rate),
                 timeline = this.toTimeline(),
             )
-
-        private fun toChargingMode(): ChargingMode =
-            when (this.mode) {
-                SURCHARGE -> ChargingMode.Surcharge(this.rate)
-                DISCHARGE -> ChargingMode.Discharge(this.rate)
-                STANDARD -> ChargingMode.Standard
-            }
 
         private fun toTimeline(): Timeline = Timeline(this.timeline.map { it.toTimeSlot() })
     }

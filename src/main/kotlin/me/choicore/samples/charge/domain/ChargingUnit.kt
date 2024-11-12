@@ -2,15 +2,20 @@ package me.choicore.samples.charge.domain
 
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.temporal.ChronoUnit.MINUTES
 
 data class ChargingUnit(
     val identifier: ChargingUnitIdentifier,
     val chargedOn: LocalDate,
     val startTime: LocalTime,
     val endTime: LocalTime,
-    var deleted: Boolean = false,
+    var active: Boolean = true,
     var adjustable: Boolean = true,
 ) {
+    val originalAmount: Long = TimeUtils.duration(this.startTime, this.endTime, MINUTES)
+
+    val chargedAmount: Long get() = this.details.sumOf { it.chargedAmount }
+
     init {
         require(this.startTime.isBefore(this.endTime)) { "The start time must be before the end time." }
     }
@@ -22,11 +27,11 @@ data class ChargingUnit(
             val basis: TimeSlot = slot
             val applied: TimeSlot? = slot.extractWithin(this.startTime, this.endTime)
             if (applied != null) {
-                this.addAdjustment(
-                    Adjustment(
+                this.addDetail(
+                    ChargingDetail(
+                        unitId = null,
                         strategyId = strategy.identifier.strategyId,
                         mode = strategy.mode,
-                        rate = strategy.mode.rate,
                         basis = basis,
                         applied = applied,
                     ),
@@ -58,19 +63,33 @@ data class ChargingUnit(
         }
     }
 
-    private val _adjustments: MutableList<Adjustment> = mutableListOf()
-    val adjustments: List<Adjustment> get() = this._adjustments.toList()
+    private val _details: MutableList<ChargingDetail> = mutableListOf()
+    val details: List<ChargingDetail> get() = this._details.toList()
 
-    private fun addAdjustment(adjustment: Adjustment) {
-        this._adjustments.add(adjustment)
-        this._adjustments.sortBy { it.basis.startTimeInclusive }
+    fun addDetail(chargingDetail: ChargingDetail) {
+        this._details.add(chargingDetail)
+        this._details.sortBy { it.basis.startTimeInclusive }
     }
 
-    data class Adjustment(
+    fun addDetails(chargingDetails: List<ChargingDetail>) {
+        chargingDetails.forEach { this.addDetail(it) }
+    }
+
+    data class ChargingDetail(
+        val detailId: Long? = null,
+        val unitId: Long? = null,
         val strategyId: Long,
         val mode: ChargingMode,
-        val rate: Int,
         val basis: TimeSlot,
         val applied: TimeSlot,
-    )
+    ) {
+        val originalAmount: Long
+            get() =
+                TimeUtils.duration(
+                    start = basis.startTimeInclusive,
+                    end = basis.endTimeInclusive,
+                    unit = MINUTES,
+                )
+        val chargedAmount: Long get() = this.mode.charge(amount = this.applied.duration(unit = MINUTES)).toLong()
+    }
 }

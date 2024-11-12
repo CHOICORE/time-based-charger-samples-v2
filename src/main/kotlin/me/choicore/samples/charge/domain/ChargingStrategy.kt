@@ -16,9 +16,9 @@ sealed interface ChargingStrategy {
 
     fun supports(date: LocalDate): Boolean
 
-    fun attempt(chargingUnit: ChargingUnit) {
-        require(value = this.supports(date = chargingUnit.chargedOn)) { "The specified date does not satisfy the timeline." }
-        chargingUnit.adjust(strategy = this)
+    fun attempt(unit: ChargingUnit) {
+        require(value = this.supports(date = unit.chargedOn)) { "The specified date does not satisfy the timeline." }
+        unit.adjust(strategy = this)
     }
 
     interface DayOfWeekChargingStrategy : ChargingStrategy {

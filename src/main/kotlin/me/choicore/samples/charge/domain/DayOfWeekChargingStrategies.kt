@@ -35,6 +35,10 @@ class DayOfWeekChargingStrategies() : AbstractChargingStrategies<DayOfWeek, DayO
             return emptyList()
         } else {
             val remainingTimeline: Timeline = Timeline.remain(super.getOverallTimeSlots(dayOfWeekChargingStrategies))
+            if (remainingTimeline.empty) {
+                return dayOfWeekChargingStrategies
+            }
+
             dayOfWeekChargingStrategies.add(
                 DayOfWeekChargingStrategy(
                     identifier = DayOfWeekChargingStrategyIdentifier.empty(),

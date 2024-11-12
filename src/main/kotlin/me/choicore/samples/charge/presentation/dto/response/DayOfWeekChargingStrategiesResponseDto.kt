@@ -20,7 +20,7 @@ data class DayOfWeekChargingStrategiesResponseDto(
     val sat: List<DayOfWeekChargingStrategyDto> = emptyList(),
 ) {
     data class DayOfWeekChargingStrategyDto(
-        val strategyId: Long,
+        val strategyId: Long?,
         val mode: ChargingMethod,
         val rate: Int,
         val timeline: List<TimeSlotDto>,
@@ -37,7 +37,14 @@ data class DayOfWeekChargingStrategiesResponseDto(
         companion object {
             fun from(dayOfWeekChargingStrategy: DayOfWeekChargingStrategy): DayOfWeekChargingStrategyDto =
                 DayOfWeekChargingStrategyDto(
-                    strategyId = dayOfWeekChargingStrategy.identifier.strategyId,
+                    strategyId =
+                        if (dayOfWeekChargingStrategy.identifier.strategyId ==
+                            0L
+                        ) {
+                            null
+                        } else {
+                            dayOfWeekChargingStrategy.identifier.strategyId
+                        },
                     mode = dayOfWeekChargingStrategy.mode.method,
                     rate = dayOfWeekChargingStrategy.mode.rate,
                     timeline = dayOfWeekChargingStrategy.timeline.slots.map { TimeSlotDto.from(it) },

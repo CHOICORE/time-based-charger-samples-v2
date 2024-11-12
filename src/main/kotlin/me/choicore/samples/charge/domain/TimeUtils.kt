@@ -19,7 +19,7 @@ object TimeUtils {
             isFullTime(start, end) -> getFullDayDuration(unit)
             else -> {
                 val duration: Long = unit.between(start, end)
-                if (end == LocalTime.MAX) duration.plus(1) else duration
+                if (end >= MAX_TIME) duration.plus(1) else duration
             }
         }
 
@@ -35,5 +35,7 @@ object TimeUtils {
     private fun isFullTime(
         start: LocalTime,
         end: LocalTime,
-    ): Boolean = start == LocalTime.MIN && end == LocalTime.MAX
+    ): Boolean = start == LocalTime.MIN && end == MAX_TIME
+
+    val MAX_TIME: LocalTime = LocalTime.MAX.truncatedTo(ChronoUnit.SECONDS)
 }

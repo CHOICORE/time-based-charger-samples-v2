@@ -5,8 +5,10 @@ import java.time.LocalDate
 interface ChargingTargetRepository {
     fun save(chargingTarget: ChargingTarget): ChargingTarget
 
-    fun findByComplexIdAndLastChargedOnLessThanEqualOrNull(
+    fun update(chargingTarget: ChargingTarget): ChargingTarget
+
+    fun getChargingTargetsByComplexIdAndChargedOn(
         complexId: Long,
-        lastChargedOn: LocalDate,
+        chargedOn: LocalDate,
     ): List<ChargingTarget>
 }

@@ -18,8 +18,8 @@ data class DayOfWeekChargingStrategy(
         private val _stationId: Long? = null,
         override val complexId: Long,
     ) : ChargingStrategyIdentifier {
-        override val strategyId: Long get() = this._strategyId ?: throw IllegalStateException("id is not set")
-        val stationId: Long get() = this._stationId ?: throw IllegalStateException("id is not set")
+        override val strategyId: Long get() = this._strategyId ?: 0
+        val stationId: Long get() = this._stationId ?: 0
 
         companion object {
             fun unregistered(complexId: Long): DayOfWeekChargingStrategyIdentifier =

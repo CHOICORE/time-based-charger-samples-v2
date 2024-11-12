@@ -10,6 +10,7 @@ class Timeline {
 
     private val _slots: MutableList<TimeSlot> = mutableListOf()
     val slots: List<TimeSlot> get() = this._slots
+    val empty: Boolean get() = this._slots.isEmpty()
 
     fun addSlot(
         startTimeInclusive: LocalTime,
@@ -76,8 +77,12 @@ class Timeline {
                 }
                 previous = slot.endTimeInclusive
             }
-            if (previous < LocalTime.MAX) {
-                remainingTimeline.addSlot(startTimeInclusive = previous, endTimeInclusive = LocalTime.MAX)
+            val endTimeInclusive: LocalTime = TimeUtils.MAX_TIME
+            if (previous < endTimeInclusive) {
+                remainingTimeline.addSlot(
+                    startTimeInclusive = previous,
+                    endTimeInclusive = endTimeInclusive,
+                )
             }
             return remainingTimeline
         }
