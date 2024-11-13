@@ -8,3 +8,8 @@ services:
       - 'MYSQL_USER=choicore'
     ports:
       - '3306:3306'
+    deploy:
+      resources:
+        limits:
+          cpus: "4.0"
+          memory: "16g"

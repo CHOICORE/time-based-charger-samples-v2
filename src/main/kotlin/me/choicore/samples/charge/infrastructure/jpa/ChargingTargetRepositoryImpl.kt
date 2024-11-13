@@ -1,6 +1,5 @@
 package me.choicore.samples.charge.infrastructure.jpa
 
-import me.choicore.samples.charge.domain.ChargingStatus.ABORTED
 import me.choicore.samples.charge.domain.ChargingStatus.CHARGING
 import me.choicore.samples.charge.domain.ChargingStatus.REGISTERED
 import me.choicore.samples.charge.domain.ChargingTarget
@@ -41,6 +40,6 @@ class ChargingTargetRepositoryImpl(
             .findByComplexIdAndLastChargedOnIsNullOrLastChargedOnLessThanEqualAndStatusIn(
                 complexId = complexId,
                 lastChargedOn = chargedOn,
-                status = setOf(REGISTERED, CHARGING, ABORTED),
+                status = setOf(REGISTERED, CHARGING),
             ).map { it.toChargingTarget() }
 }

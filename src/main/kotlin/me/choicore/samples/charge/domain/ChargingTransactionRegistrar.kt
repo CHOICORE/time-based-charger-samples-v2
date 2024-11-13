@@ -4,12 +4,12 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class Charger(
+class ChargingTransactionRegistrar(
     private val chargingTargetRepository: ChargingTargetRepository,
     private val chargingUnitRepository: ChargingUnitRepository,
 ) {
     @Transactional
-    fun charge(
+    fun register(
         target: ChargingTarget,
         unit: ChargingUnit,
     ) {
@@ -19,7 +19,10 @@ class Charger(
 
     @Transactional
     fun exempt(target: ChargingTarget) {
-        target.status = ChargingStatus.EXEMPTED
         chargingTargetRepository.update(target)
+        chargingUnitRepository.markAsInactiveByTargetIdAndChargedOnGreatThanEqual(
+            target.identifier.targetId,
+            target.arrivedOn,
+        )
     }
 }
