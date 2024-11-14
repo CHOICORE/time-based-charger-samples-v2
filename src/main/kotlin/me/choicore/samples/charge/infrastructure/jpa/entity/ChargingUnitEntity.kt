@@ -3,6 +3,7 @@ package me.choicore.samples.charge.infrastructure.jpa.entity
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
 import me.choicore.samples.charge.domain.ChargingUnit
+import me.choicore.samples.charge.domain.TimeUtils
 import me.choicore.samples.common.jpa.AutoIncrement
 import java.time.LocalDate
 import java.time.LocalTime
@@ -17,6 +18,7 @@ class ChargingUnitEntity(
     val originalAmount: Long,
     val chargedAmount: Long,
     var active: Boolean = true,
+    val adjustable: Boolean = true,
 ) : AutoIncrement() {
     constructor(chargingUnit: ChargingUnit) : this(
         targetId = chargingUnit.identifier.targetId,
@@ -26,6 +28,7 @@ class ChargingUnitEntity(
         active = chargingUnit.active,
         originalAmount = chargingUnit.originalAmount,
         chargedAmount = chargingUnit.chargedAmount,
+        adjustable = chargingUnit.adjustable,
     )
 
     fun toChargingUnit(): ChargingUnit =
@@ -33,7 +36,7 @@ class ChargingUnitEntity(
             identifier = ChargingUnit.ChargingUnitIdentifier.unregistered(this.targetId),
             chargedOn = this.chargedOn,
             startTime = this.startTime,
-            endTime = this.endTime,
+            endTime = minOf(this.endTime, TimeUtils.MAX_TIME),
             active = this.active,
         )
 }

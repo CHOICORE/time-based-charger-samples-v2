@@ -1,7 +1,6 @@
 package me.choicore.samples.charge.infrastructure.jpa
 
 import me.choicore.samples.charge.domain.ChargingUnit
-import me.choicore.samples.charge.domain.ChargingUnit.ChargingDetail
 import me.choicore.samples.charge.domain.ChargingUnitRepository
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingDetailEntity
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingDetailEntityRepository
@@ -19,16 +18,26 @@ class ChargingUnitRepositoryImpl(
 ) : ChargingUnitRepository {
     @Transactional
     override fun save(unit: ChargingUnit): ChargingUnit {
-        val cu: ChargingUnitEntity = chargingUnitEntityRepository.save(ChargingUnitEntity(unit))
-        val details: List<ChargingDetail> = unit.details
-        val chargingUnit: ChargingUnit = cu.toChargingUnit()
-        for (detail: ChargingDetail in details) {
-            val cd: ChargingDetailEntity = chargingDetailEntityRepository.save(ChargingDetailEntity(cu.id, detail))
-            chargingUnit.addDetail(detail.copy(detailId = cd.id, unitId = cu.id))
+        val savedUnit = chargingUnitEntityRepository.save(ChargingUnitEntity(unit))
+
+        val detailEntities = unit.details.map { detail ->
+            ChargingDetailEntity(savedUnit.id, detail)
         }
 
-        return chargingUnit
+        val savedDetails = chargingDetailEntityRepository.saveAll(detailEntities)
+
+        return savedUnit.toChargingUnit().apply {
+            savedDetails.forEach { detail ->
+                addDetail(detail.toChargingDetail())
+            }
+        }
     }
+
+    @Transactional
+    override fun saveAll(units: List<ChargingUnit>): List<ChargingUnit> {
+        return units.map { unit -> this.save(unit) }
+    }
+
 
     @Transactional
     override fun markAsInactiveByTargetIdAndChargedOnGreatThanEqual(

@@ -11,15 +11,26 @@ class ChargingTransactionRegistrar(
     @Transactional
     fun register(
         target: ChargingTarget,
-        unit: ChargingUnit,
+        units: List<ChargingUnit>,
     ) {
-        chargingUnitRepository.save(unit)
-        chargingTargetRepository.update(target)
+        chargingUnitRepository.saveAll(units)
+        chargingTargetRepository.updateForStatus(target)
+    }
+
+    @Transactional
+    fun pend(target: ChargingTarget) {
+        require(target.status == ChargingStatus.PENDED) {
+            "Target status must be Pending"
+        }
+        chargingTargetRepository.updateForStatus(target)
     }
 
     @Transactional
     fun exempt(target: ChargingTarget) {
-        chargingTargetRepository.update(target)
+        require(target.status == ChargingStatus.EXEMPTED) {
+            "Target status must be Exempted"
+        }
+        chargingTargetRepository.updateForStatus(target)
         chargingUnitRepository.markAsInactiveByTargetIdAndChargedOnGreatThanEqual(
             target.identifier.targetId,
             target.arrivedOn,

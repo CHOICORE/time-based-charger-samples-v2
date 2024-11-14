@@ -15,7 +15,10 @@ data class TimeSlot(
     val endTimeInclusive: LocalTime,
 ) {
     init {
-        require(this.startTimeInclusive.isBefore(this.endTimeInclusive)) {
+        require(
+            this.startTimeInclusive.isBefore(this.endTimeInclusive)
+                    || (startTimeInclusive <= endTimeInclusive && endTimeInclusive == TimeUtils.MAX_TIME)
+        ) {
             "startTimeInclusive must be before endTimeInclusive"
         }
     }
@@ -33,7 +36,8 @@ data class TimeSlot(
      * @param other 비교할 다른 `TimeSlot`.
      * @return 두 `TimeSlot`이 겹치는 경우 `true`; 그렇지 않으면 `false`.
      */
-    fun overlapsWith(other: TimeSlot): Boolean = startTimeInclusive < other.endTimeInclusive && endTimeInclusive > other.startTimeInclusive
+    fun overlapsWith(other: TimeSlot): Boolean =
+        startTimeInclusive < other.endTimeInclusive && endTimeInclusive > other.startTimeInclusive
 
     /**
      * 주어진 시간 범위 내에서 이 `TimeSlot`의 부분을 추출합니다.
@@ -60,7 +64,8 @@ data class TimeSlot(
      *
      * @return 이 `TimeSlot`이 하루 전체를 나타내면 `true`, 그렇지 않으면 `false`.
      */
-    private fun isFullTime(): Boolean = this.startTimeInclusive == LocalTime.MIN && this.endTimeInclusive == LocalTime.MAX
+    private fun isFullTime(): Boolean =
+        this.startTimeInclusive == LocalTime.MIN && this.endTimeInclusive == LocalTime.MAX
 
     companion object {
         /**

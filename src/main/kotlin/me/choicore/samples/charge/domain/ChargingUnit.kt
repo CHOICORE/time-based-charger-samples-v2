@@ -3,6 +3,7 @@ package me.choicore.samples.charge.domain
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit.MINUTES
+import java.time.temporal.ChronoUnit.SECONDS
 
 data class ChargingUnit(
     val identifier: ChargingUnitIdentifier,
@@ -12,12 +13,14 @@ data class ChargingUnit(
     var active: Boolean = true,
     var adjustable: Boolean = true,
 ) {
-    val originalAmount: Long = TimeUtils.duration(this.startTime, this.endTime, MINUTES)
+    val originalAmount: Long = TimeUtils.duration(this.startTime, this.endTime, SECONDS) / 60
 
     val chargedAmount: Long get() = this.details.sumOf { it.chargedAmount }
 
     init {
-        require(this.startTime.isBefore(this.endTime)) { "The start time must be before the end time." }
+        require(
+            this.startTime.isBefore(this.endTime) || this.startTime >= TimeUtils.MAX_TIME,
+        ) { "The start time must be before the end time." }
     }
 
     fun adjust(strategy: ChargingStrategy) {
@@ -72,7 +75,9 @@ data class ChargingUnit(
     }
 
     fun addDetails(chargingDetails: List<ChargingDetail>) {
-        chargingDetails.forEach { this.addDetail(it) }
+        for (detail: ChargingDetail in chargingDetails) {
+            this.addDetail(detail)
+        }
     }
 
     data class ChargingDetail(

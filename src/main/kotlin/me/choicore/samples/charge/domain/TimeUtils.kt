@@ -8,7 +8,7 @@ object TimeUtils {
         start: LocalTime,
         end: LocalTime,
         unit: ChronoUnit,
-    ): Long = getElapsedTime(start = start, end = end, unit = unit)
+    ): Long = this.getElapsedTime(start = start, end = end, unit = unit)
 
     private fun getElapsedTime(
         start: LocalTime,
@@ -16,14 +16,23 @@ object TimeUtils {
         unit: ChronoUnit,
     ): Long =
         when {
-            isFullTime(start, end) -> getFullDayDuration(unit)
+            this.isFullTime(start = start, end = end) -> this.getFullTimeDuration(unit = unit)
             else -> {
-                val duration: Long = unit.between(start, end)
-                if (end >= MAX_TIME) duration.plus(1) else duration
+                val adjustedEnd: LocalTime = minOf(end, MAX_TIME)
+                val paddingSeconds: Int = if (adjustedEnd == MAX_TIME) 1 else 0
+                val calculated: Long = ChronoUnit.SECONDS.between(start, adjustedEnd) + paddingSeconds
+
+                when (unit) {
+                    ChronoUnit.DAYS -> calculated / 86400
+                    ChronoUnit.HOURS -> calculated / 3600
+                    ChronoUnit.MINUTES -> calculated / 60
+                    ChronoUnit.SECONDS -> calculated
+                    else -> throw IllegalArgumentException("Unsupported unit for full day calculation")
+                }
             }
         }
 
-    private fun getFullDayDuration(unit: ChronoUnit): Long =
+    private fun getFullTimeDuration(unit: ChronoUnit): Long =
         when (unit) {
             ChronoUnit.DAYS -> 1
             ChronoUnit.HOURS -> 24
@@ -35,7 +44,7 @@ object TimeUtils {
     private fun isFullTime(
         start: LocalTime,
         end: LocalTime,
-    ): Boolean = start == LocalTime.MIN && end == MAX_TIME
+    ): Boolean = start == LocalTime.MIN && end >= MAX_TIME
 
-    val MAX_TIME: LocalTime = LocalTime.MAX.truncatedTo(ChronoUnit.SECONDS)
+    val MAX_TIME: LocalTime = LocalTime.of(23, 59, 59)
 }

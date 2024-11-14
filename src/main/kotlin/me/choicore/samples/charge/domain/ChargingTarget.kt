@@ -1,5 +1,6 @@
 package me.choicore.samples.charge.domain
 
+import me.choicore.samples.charge.domain.ChargingStatus.PENDED
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -21,7 +22,11 @@ data class ChargingTarget(
      * 출차 날짜
      */
     val departedOn: LocalDate? = departedAt?.toLocalDate()
-    val currentChargedOn: LocalDate
+
+    /**
+     * 다음 청구 날짜
+     */
+    val nextChargedOn: LocalDate
         get() =
             if (this.lastChargedOn == null) {
                 this.arrivedOn
@@ -46,7 +51,14 @@ data class ChargingTarget(
     }
 
     /**
-     * 차량이 출차한 시점을 기록합니다.
+     * 청구 상태 변경 (대기)
+     */
+    fun pended() {
+        this.status = PENDED
+    }
+
+    /**
+     * 출차 처리
      */
     fun departed(departedAt: LocalDateTime) {
         this.departedAt = departedAt
@@ -68,13 +80,12 @@ data class ChargingTarget(
                 return false
             }
         } else {
-            if (arrivedOn.plusDays(1) < chargedOn) {
-                return true
-            }
-
-            val exemptionCutoffTime: LocalDateTime = arrivedAt.plusMinutes(exemptionThreshold)
-            if (exemptionCutoffTime >= this.nextDayMidnight) {
-                return false
+            if (arrivedOn == chargedOn) {
+                val exemptionCutoffTime: LocalDateTime = arrivedAt.plusMinutes(exemptionThreshold)
+                if (exemptionCutoffTime >= this.nextDayMidnight) {
+                    this.status = PENDED
+                    return false
+                }
             }
         }
         return true
@@ -92,7 +103,7 @@ data class ChargingTarget(
             if (this.departedOn == chargedOn) {
                 this.departedAt!!.toLocalTime()
             } else {
-                LocalTime.of(23, 59, 59)
+                TimeUtils.MAX_TIME
             }
 
         return ChargingUnit(
@@ -111,7 +122,9 @@ data class ChargingTarget(
                 .atStartOfDay()
 
     class ChargingTargetIdentifier private constructor(
+
         private val _targetId: Long? = null,
+        val accessId: Long? = null,
         val complexId: Long,
         val building: String,
         val unit: String,
@@ -121,12 +134,14 @@ data class ChargingTarget(
 
         companion object {
             fun unregistered(
+                accessId: Long? = null,
                 complexId: Long,
                 building: String,
                 unit: String,
                 licensePlate: String,
             ): ChargingTargetIdentifier =
                 ChargingTargetIdentifier(
+                    accessId = accessId,
                     complexId = complexId,
                     building = building,
                     unit = unit,
@@ -135,6 +150,7 @@ data class ChargingTarget(
 
             fun registered(
                 targetId: Long,
+                accessId: Long? = null,
                 complexId: Long,
                 building: String,
                 unit: String,
@@ -142,6 +158,7 @@ data class ChargingTarget(
             ): ChargingTargetIdentifier =
                 ChargingTargetIdentifier(
                     _targetId = targetId,
+                    accessId = accessId,
                     complexId = complexId,
                     building = building,
                     unit = unit,

@@ -13,14 +13,15 @@ class ChargingTargetChargingEvaluator(
     override fun evaluate(chargeRequest: ChargeRequest) {
         val (context: ChargingContext, target: ChargingTarget, chargedOn: LocalDate) = chargeRequest
 
-        var currentChargedOn: LocalDate = target.currentChargedOn
+        var currentChargedOn: LocalDate = target.nextChargedOn
 
+        val units: MutableList<ChargingUnit> = mutableListOf()
         while (currentChargedOn <= chargedOn) {
             val chargingUnit: ChargingUnit = target.getChargingUnit(chargedOn = currentChargedOn)
             context.charge(unit = chargingUnit, chargedOn = currentChargedOn)
             target.charged(chargedOn = currentChargedOn)
 
-            chargingTransactionRegistrar.register(target = target, unit = chargingUnit)
+            units.add(chargingUnit)
 
             if (target.status == CHARGED) {
                 break
@@ -28,6 +29,8 @@ class ChargingTargetChargingEvaluator(
 
             currentChargedOn = currentChargedOn.plusDays(1)
         }
+        chargingTransactionRegistrar.register(target = target, units = units)
+
         chargeRequest.processed()
     }
 }

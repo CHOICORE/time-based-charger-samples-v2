@@ -13,6 +13,7 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "charging_targets")
 class ChargingTargetEntity(
+    val accessId: Long? = null,
     val complexId: Long,
     val building: String,
     val unit: String,
@@ -25,6 +26,7 @@ class ChargingTargetEntity(
     var lastChargedOn: LocalDate? = null,
 ) : AutoIncrement() {
     constructor(chargingTarget: ChargingTarget) : this(
+        accessId = chargingTarget.identifier.accessId,
         complexId = chargingTarget.identifier.complexId,
         building = chargingTarget.identifier.building,
         unit = chargingTarget.identifier.unit,

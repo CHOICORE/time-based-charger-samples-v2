@@ -12,14 +12,10 @@ data class TimeSlotDto(
         require(startTime.isBefore(endTime)) { "startTime must be before endTime" }
     }
 
-    fun toTimeSlot(): TimeSlot =
-        if (this.endTime >= TimeUtils.MAX_TIME) {
-            TimeSlot(this.startTime, TimeUtils.MAX_TIME)
-        } else {
-            TimeSlot(this.startTime, this.endTime)
-        }
+    fun toTimeSlot(): TimeSlot = TimeSlot(this.startTime, minOf(this.endTime, TimeUtils.MAX_TIME))
 
     companion object {
-        fun from(timeSlot: TimeSlot): TimeSlotDto = TimeSlotDto(timeSlot.startTimeInclusive, timeSlot.endTimeInclusive)
+        fun from(timeSlot: TimeSlot): TimeSlotDto =
+            TimeSlotDto(timeSlot.startTimeInclusive, minOf(timeSlot.endTimeInclusive, TimeUtils.MAX_TIME))
     }
 }

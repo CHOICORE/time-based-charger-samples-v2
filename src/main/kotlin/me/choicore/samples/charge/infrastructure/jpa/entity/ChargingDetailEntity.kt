@@ -5,6 +5,7 @@ import jakarta.persistence.Table
 import me.choicore.samples.charge.domain.ChargingMethod
 import me.choicore.samples.charge.domain.ChargingUnit.ChargingDetail
 import me.choicore.samples.charge.domain.TimeSlot
+import me.choicore.samples.charge.domain.TimeUtils
 import me.choicore.samples.common.jpa.AutoIncrement
 import java.time.LocalTime
 
@@ -20,7 +21,6 @@ class ChargingDetailEntity(
     val appliedStartTime: LocalTime,
     val appliedEndTime: LocalTime,
     val chargedAmount: Long,
-    var active: Boolean = true,
 ) : AutoIncrement() {
     constructor(unitId: Long, chargingDetail: ChargingDetail) : this(
         unitId = unitId,
@@ -38,8 +38,14 @@ class ChargingDetailEntity(
         ChargingDetail(
             unitId = this.unitId,
             strategyId = this.strategyId!!,
-            basis = TimeSlot(this.basisStartTime, this.basisEndTime),
+            basis = TimeSlot(
+                startTimeInclusive = this.basisStartTime,
+                endTimeInclusive = minOf(this.basisEndTime, TimeUtils.MAX_TIME),
+            ),
             mode = this.method.toChargingMode(rate = this.rate),
-            applied = TimeSlot(this.appliedStartTime, this.appliedEndTime),
+            applied = TimeSlot(
+                startTimeInclusive = this.appliedStartTime,
+                endTimeInclusive = minOf(this.appliedEndTime, TimeUtils.MAX_TIME),
+            ),
         )
 }
