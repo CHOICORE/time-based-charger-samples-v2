@@ -13,11 +13,6 @@ class ChargingTargetReader(
         return chargingTargetRepository.findByCriteriaAndDepartedAtIsNullForUpdate(criteria)
     }
 
-    fun getChargingTargetsByComplexId(complexId: Long): List<ChargingTarget> {
-        TODO()
-    }
-
-
     fun getChargingTargetsByComplexIdAndChargedOn(
         complexId: Long,
         chargedOn: LocalDate,

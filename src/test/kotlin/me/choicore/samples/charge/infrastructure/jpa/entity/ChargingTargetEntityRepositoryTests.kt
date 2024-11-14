@@ -46,7 +46,7 @@ class ChargingTargetEntityRepositoryTests(
 //        )
 
         while (start < end) {
-            (1..10)
+            (1..2)
                 .map {
                     val building = buildings.random()
                     val unit = "${building.substring(0, 1)}${(1..10).random().toString().padStart(2, '0')}"

@@ -47,9 +47,9 @@ class ChargingTargetRepositoryImpl(
         chargedOn: LocalDate,
     ): List<ChargingTarget> =
         chargingTargetEntityRepository
-            .findByComplexIdAndLastChargedOnIsNullOrLastChargedOnLessThanEqualAndStatusIn(
+            .findByComplexIdAndLastChargedOnIsNullOrLastChargedOnLessThanAndStatusIn(
                 complexId = complexId,
                 lastChargedOn = chargedOn,
-                status = setOf(REGISTERED, CHARGING),
+                statuses = setOf(REGISTERED, CHARGING),
             ).map { it.toChargingTarget() }
 }

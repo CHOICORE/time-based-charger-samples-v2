@@ -11,10 +11,19 @@ import org.springframework.data.repository.query.Param
 import java.time.LocalDate
 
 interface ChargingTargetEntityRepository : JpaRepository<ChargingTargetEntity, Long> {
-    fun findByComplexIdAndLastChargedOnIsNullOrLastChargedOnLessThanEqualAndStatusIn(
+    @Query(
+        """
+        SELECT c
+        FROM ChargingTargetEntity c
+        WHERE c.complexId = :complexId
+          AND (c.lastChargedOn IS NULL OR c.lastChargedOn < :lastChargedOn)
+          AND c.status IN :statuses
+        """
+    )
+    fun findByComplexIdAndLastChargedOnIsNullOrLastChargedOnLessThanAndStatusIn(
         complexId: Long,
         lastChargedOn: LocalDate,
-        status: Set<ChargingStatus>,
+        statuses: Set<ChargingStatus>,
     ): List<ChargingTargetEntity>
 
     @Lock(PESSIMISTIC_WRITE)
