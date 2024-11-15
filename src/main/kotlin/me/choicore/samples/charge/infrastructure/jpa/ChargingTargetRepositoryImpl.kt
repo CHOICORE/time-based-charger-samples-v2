@@ -7,6 +7,7 @@ import me.choicore.samples.charge.domain.ChargingTargetCriteria
 import me.choicore.samples.charge.domain.ChargingTargetRepository
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingTargetEntity
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingTargetEntityRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -16,14 +17,17 @@ import java.time.LocalDate
 class ChargingTargetRepositoryImpl(
     private val chargingTargetEntityRepository: ChargingTargetEntityRepository,
 ) : ChargingTargetRepository {
-    override fun findByCriteriaAndDepartedAtIsNullForUpdate(criteria: ChargingTargetCriteria): List<ChargingTarget> {
-        return chargingTargetEntityRepository.findByCriteriaAndDepartedAtIsNullForUpdate(criteria)
+    override fun findByCriteriaAndDepartedAtIsNullForUpdate(criteria: ChargingTargetCriteria): List<ChargingTarget> =
+        chargingTargetEntityRepository
+            .findByCriteriaAndDepartedAtIsNullForUpdate(criteria)
             .map { it.toChargingTarget() }
-    }
 
     override fun findByCriteria(criteria: ChargingTargetCriteria): List<ChargingTarget> {
         TODO()
     }
+
+    override fun findChargingTargetByAccessId(accessId: Long): ChargingTarget? =
+        chargingTargetEntityRepository.findByAccessId(accessId)?.toChargingTarget()
 
     @Transactional
     override fun save(chargingTarget: ChargingTarget): ChargingTarget {
@@ -45,11 +49,13 @@ class ChargingTargetRepositoryImpl(
     override fun getChargingTargetsByComplexIdAndChargedOn(
         complexId: Long,
         chargedOn: LocalDate,
+        size: Int,
     ): List<ChargingTarget> =
         chargingTargetEntityRepository
             .findByComplexIdAndLastChargedOnIsNullOrLastChargedOnLessThanAndStatusIn(
                 complexId = complexId,
                 lastChargedOn = chargedOn,
                 statuses = setOf(REGISTERED, CHARGING),
+                pageable = PageRequest.ofSize(size),
             ).map { it.toChargingTarget() }
 }

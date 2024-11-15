@@ -43,4 +43,11 @@ class ChargingUnitEntityRepositoryTests(
             println(it.toChargingUnit())
         }
     }
+
+    @Test
+    fun t2() {
+        chargingUnitEntityRepository.findAll().forEach {
+            println(it.toChargingUnit())
+        }
+    }
 }

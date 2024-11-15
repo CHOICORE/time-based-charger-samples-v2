@@ -9,16 +9,19 @@ class ChargingTargetReader(
     private val chargingTargetRepository: ChargingTargetRepository,
 ) {
     @Transactional
-    fun findByCriteriaAndDepartedAtIsNullForUpdate(criteria: ChargingTargetCriteria): List<ChargingTarget> {
-        return chargingTargetRepository.findByCriteriaAndDepartedAtIsNullForUpdate(criteria)
-    }
+    fun findByCriteriaAndDepartedAtIsNullForUpdate(criteria: ChargingTargetCriteria): List<ChargingTarget> =
+        chargingTargetRepository.findByCriteriaAndDepartedAtIsNullForUpdate(criteria)
 
     fun getChargingTargetsByComplexIdAndChargedOn(
         complexId: Long,
         chargedOn: LocalDate,
+        size: Int,
     ): List<ChargingTarget> =
         chargingTargetRepository.getChargingTargetsByComplexIdAndChargedOn(
             complexId = complexId,
             chargedOn = chargedOn,
+            size = size,
         )
+
+    fun findChargingTargetByAccessId(accessId: Long): ChargingTarget? = chargingTargetRepository.findChargingTargetByAccessId(accessId)
 }

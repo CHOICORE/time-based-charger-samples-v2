@@ -3,11 +3,11 @@ package me.choicore.samples.charge.domain
 import java.time.LocalDate
 
 interface ChargingTargetRepository {
-    fun findByCriteriaAndDepartedAtIsNullForUpdate(
-        criteria: ChargingTargetCriteria,
-    ): List<ChargingTarget>
+    fun findByCriteriaAndDepartedAtIsNullForUpdate(criteria: ChargingTargetCriteria): List<ChargingTarget>
 
     fun findByCriteria(criteria: ChargingTargetCriteria): List<ChargingTarget>
+
+    fun findChargingTargetByAccessId(accessId: Long): ChargingTarget?
 
     fun save(chargingTarget: ChargingTarget): ChargingTarget
 
@@ -16,5 +16,6 @@ interface ChargingTargetRepository {
     fun getChargingTargetsByComplexIdAndChargedOn(
         complexId: Long,
         chargedOn: LocalDate,
+        size: Int,
     ): List<ChargingTarget>
 }

@@ -38,14 +38,16 @@ class ChargingDetailEntity(
         ChargingDetail(
             unitId = this.unitId,
             strategyId = this.strategyId!!,
-            basis = TimeSlot(
-                startTimeInclusive = this.basisStartTime,
-                endTimeInclusive = minOf(this.basisEndTime, TimeUtils.MAX_TIME),
-            ),
+            basis =
+                TimeSlot(
+                    startTimeInclusive = this.basisStartTime,
+                    endTimeInclusive = minOf(this.basisEndTime, TimeUtils.MAX_TIME),
+                ),
             mode = this.method.toChargingMode(rate = this.rate),
-            applied = TimeSlot(
-                startTimeInclusive = this.appliedStartTime,
-                endTimeInclusive = minOf(this.appliedEndTime, TimeUtils.MAX_TIME),
-            ),
+            applied =
+                TimeSlot(
+                    startTimeInclusive = this.appliedStartTime,
+                    endTimeInclusive = minOf(this.appliedEndTime, TimeUtils.MAX_TIME),
+                ),
         )
 }

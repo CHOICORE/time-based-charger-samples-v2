@@ -6,7 +6,5 @@ import org.springframework.stereotype.Service
 class ChargingTargetRegistrar(
     private val chargingTargetRepository: ChargingTargetRepository,
 ) {
-    fun register(chargingTarget: ChargingTarget): ChargingTarget {
-        return chargingTargetRepository.save(chargingTarget)
-    }
+    fun register(chargingTarget: ChargingTarget): ChargingTarget = chargingTargetRepository.save(chargingTarget)
 }

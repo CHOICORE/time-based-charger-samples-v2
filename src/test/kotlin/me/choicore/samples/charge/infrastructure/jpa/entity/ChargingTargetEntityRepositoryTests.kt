@@ -27,7 +27,7 @@ class ChargingTargetEntityRepositoryTests(
         val end: LocalDate = LocalDate.now()
         start = end.minusDays(1)
 
-//        chargingTargetEntityRepository.deleteAll()
+        chargingTargetEntityRepository.deleteAll()
 //        chargingTargetEntityRepository.save(
 //            ChargingTargetEntity(
 //                complexId = 1L,
@@ -44,9 +44,9 @@ class ChargingTargetEntityRepositoryTests(
 //                lastChargedOn = null,
 //            ),
 //        )
-
+//        val plusDays = start.plusDays(1)
         while (start < end) {
-            (1..2)
+            (1..1)
                 .map {
                     val building = buildings.random()
                     val unit = "${building.substring(0, 1)}${(1..10).random().toString().padStart(2, '0')}"

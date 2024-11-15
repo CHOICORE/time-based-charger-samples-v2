@@ -24,6 +24,6 @@ data class AccessEvent(
             building = building,
             unit = unit,
             licensePlate = licensePlate,
-            statuses = setOf(REGISTERED)
+            statuses = setOf(REGISTERED),
         )
 }

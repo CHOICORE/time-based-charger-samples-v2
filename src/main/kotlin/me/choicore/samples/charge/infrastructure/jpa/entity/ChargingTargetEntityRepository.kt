@@ -3,6 +3,7 @@ package me.choicore.samples.charge.infrastructure.jpa.entity
 import jakarta.persistence.LockModeType.PESSIMISTIC_WRITE
 import me.choicore.samples.charge.domain.ChargingStatus
 import me.choicore.samples.charge.domain.ChargingTargetCriteria
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Lock
 import org.springframework.data.jpa.repository.Modifying
@@ -18,13 +19,16 @@ interface ChargingTargetEntityRepository : JpaRepository<ChargingTargetEntity, L
         WHERE c.complexId = :complexId
           AND (c.lastChargedOn IS NULL OR c.lastChargedOn < :lastChargedOn)
           AND c.status IN :statuses
-        """
+        """,
     )
     fun findByComplexIdAndLastChargedOnIsNullOrLastChargedOnLessThanAndStatusIn(
         complexId: Long,
         lastChargedOn: LocalDate,
         statuses: Set<ChargingStatus>,
+        pageable: Pageable,
     ): List<ChargingTargetEntity>
+
+    fun findByAccessId(accessId: Long): ChargingTargetEntity?
 
     @Lock(PESSIMISTIC_WRITE)
     @Query(
@@ -37,7 +41,7 @@ interface ChargingTargetEntityRepository : JpaRepository<ChargingTargetEntity, L
           AND c.licensePlate = :#{#criteria.licensePlate}
           AND c.departedAt IS NULL
           AND c.status IN :#{#criteria.statuses}
-        """
+        """,
     )
     fun findByCriteriaAndDepartedAtIsNullForUpdate(criteria: ChargingTargetCriteria): List<ChargingTargetEntity>
 
@@ -48,7 +52,7 @@ interface ChargingTargetEntityRepository : JpaRepository<ChargingTargetEntity, L
         set c.status = :status,
             c.lastChargedOn = :lastChargedOn
         where c._id = :id
-        """
+        """,
     )
     fun charged(
         @Param("id") targetId: Long,

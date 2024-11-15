@@ -8,16 +8,18 @@ import me.choicore.samples.charge.domain.ChargingTarget.ChargingTargetIdentifier
 import me.choicore.samples.charge.domain.ChargingTargetCriteria
 import me.choicore.samples.charge.domain.ChargingTargetReader
 import me.choicore.samples.charge.domain.ChargingTargetRegistrar
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Service
 class AccessEventProcessor(
     private val chargingTargetReader: ChargingTargetReader,
     private val chargingTargetRegistrar: ChargingTargetRegistrar,
 ) {
-
     /**
      *
      * 입차 이벤트 처리 방식
@@ -47,29 +49,52 @@ class AccessEventProcessor(
                     return
                 }
 
-                val chargingTarget = ChargingTarget(
-                    identifier = ChargingTargetIdentifier.unregistered(
-                        accessId = event.accessId,
-                        complexId = event.complexId,
-                        building = event.building,
-                        unit = event.unit,
-                        licensePlate = event.licensePlate,
-                    ),
-                    arrivedAt = event.accessedAt,
-                    departedAt = null,
-                    status = REGISTERED
-                )
+                val chargingTarget =
+                    ChargingTarget(
+                        identifier =
+                            ChargingTargetIdentifier.unregistered(
+                                accessId = event.accessId,
+                                complexId = event.complexId,
+                                building = event.building,
+                                unit = event.unit,
+                                licensePlate = event.licensePlate,
+                            ),
+                        arrivedAt = event.accessedAt,
+                        departedAt = null,
+                        status = REGISTERED,
+                    )
                 chargingTargetRegistrar.register(chargingTarget)
                 log.info("Registered: {}", chargingTarget)
             }
 
             DEPARTURE -> {
-                TODO()
+                val candidate: ChargingTarget? = chargingTargetReader.findChargingTargetByAccessId(event.accessId)
+
+                if (candidate == null) {
+                    log.warn("No charging target found for access id: {}", event.accessId)
+                    return
+                }
+
+                val lastChargedOn: LocalDate? = candidate.lastChargedOn
+                if (lastChargedOn != null) {
+                    val departedAt: LocalDateTime = event.accessedAt
+                    if (departedAt.isBefore(lastChargedOn.atStartOfDay())) {
+                        log.warn(
+                            "Departed on {} is before last charged on {}. Aborting.",
+                            departedAt,
+                            lastChargedOn,
+                        )
+                    }
+
+                    candidate.aborted()
+                } else {
+                    candidate.departedAt = event.accessedAt
+                }
             }
         }
     }
 
     companion object {
-        private val log = LoggerFactory.getLogger(AccessEventProcessor::class.java)
+        private val log: Logger = LoggerFactory.getLogger(AccessEventProcessor::class.java)
     }
 }

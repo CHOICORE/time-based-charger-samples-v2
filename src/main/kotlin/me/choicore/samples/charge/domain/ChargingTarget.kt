@@ -42,6 +42,10 @@ data class ChargingTarget(
         this.status = if (this.departedOn == chargedOn) ChargingStatus.CHARGED else ChargingStatus.CHARGING
     }
 
+    fun aborted() {
+        this.status = ChargingStatus.ABORTED
+    }
+
     /**
      * 청구 상태 변경 (면제)
      */
@@ -122,7 +126,6 @@ data class ChargingTarget(
                 .atStartOfDay()
 
     class ChargingTargetIdentifier private constructor(
-
         private val _targetId: Long? = null,
         val accessId: Long? = null,
         val complexId: Long,
