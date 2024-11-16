@@ -1,11 +1,9 @@
 package me.choicore.samples.charge.infrastructure.jpa
 
 import me.choicore.samples.charge.domain.ChargingStation
-import me.choicore.samples.charge.domain.ChargingStation.ChargingStationIdentifier
 import me.choicore.samples.charge.domain.ChargingStationRepository
 import me.choicore.samples.charge.domain.DayOfWeekChargingStrategies
 import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy
-import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy.DayOfWeekChargingStrategyIdentifier
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingStationEntity
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingStationEntityRepository
 import me.choicore.samples.charge.infrastructure.jpa.entity.DayOfWeekChargingStrategyEntity
@@ -28,11 +26,8 @@ class ChargingStationRepositoryImpl(
         station.dayOfWeekChargingStrategies.all.forEach { strategy ->
             val chargingStrategy: DayOfWeekChargingStrategy =
                 strategy.copy(
-                    identifier =
-                        DayOfWeekChargingStrategyIdentifier.unregistered(
-                            complexId = complexId,
-                            stationId = chargingStationId,
-                        ),
+                    complexId = complexId,
+                    stationId = chargingStationId,
                 )
             dayOfWeekChargingStrategyEntityRepository.save(DayOfWeekChargingStrategyEntity(chargingStrategy))
         }
@@ -47,12 +42,11 @@ class ChargingStationRepositoryImpl(
         val grouped: Map<Long, List<DayOfWeekChargingStrategyEntity>> = found.groupBy { it.stationId }
         return entities
             .map {
-                val identity: ChargingStationIdentifier =
-                    ChargingStationIdentifier.registered(stationId = it.id, complexId = it.complexId)
                 val strategies: List<DayOfWeekChargingStrategy> =
                     (grouped[it.id] ?: emptyList()).map { strategy -> strategy.toChargingStrategy() }
                 ChargingStation(
-                    identifier = identity,
+                    id = it.id,
+                    complexId = it.complexId,
                     name = it.name,
                     description = it.description,
                     startsOn = it.startsOn,

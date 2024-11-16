@@ -19,7 +19,7 @@ class ChargingStationEntity private constructor(
     var active: Boolean = true,
 ) : AutoIncrement() {
     constructor(chargingStation: ChargingStation) : this(
-        complexId = chargingStation.identifier.complexId,
+        complexId = chargingStation.complexId,
         name = chargingStation.name,
         description = chargingStation.description,
         exemptionThreshold = chargingStation.exemptionThreshold,

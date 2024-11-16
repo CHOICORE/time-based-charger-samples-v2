@@ -1,7 +1,6 @@
 package me.choicore.samples.charge.presentation.dto.request
 
 import me.choicore.samples.charge.domain.ChargingStation
-import me.choicore.samples.charge.domain.ChargingStation.ChargingStationIdentifier
 import java.time.LocalDate
 
 data class ChargingStationRegistrationRequestDto(
@@ -16,7 +15,7 @@ data class ChargingStationRegistrationRequestDto(
 ) {
     fun toChargingStation(): ChargingStation =
         ChargingStation(
-            identifier = ChargingStationIdentifier.unregistered(complexId = this.complexId),
+            complexId = this.complexId,
             name = this.name,
             description = this.description,
             startsOn = this.startsOn,

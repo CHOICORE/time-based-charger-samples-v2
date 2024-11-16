@@ -17,8 +17,8 @@ data class ChargingStationResponse(
     companion object {
         fun from(chargingStation: ChargingStation): ChargingStationResponse =
             ChargingStationResponse(
-                stationId = chargingStation.identifier.chargingStationId,
-                complexId = chargingStation.identifier.complexId,
+                stationId = chargingStation.id,
+                complexId = chargingStation.complexId,
                 name = chargingStation.name,
                 description = chargingStation.description,
                 startsOn = chargingStation.startsOn,

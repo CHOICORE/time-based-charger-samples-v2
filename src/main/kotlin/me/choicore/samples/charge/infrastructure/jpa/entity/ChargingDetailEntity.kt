@@ -1,6 +1,8 @@
 package me.choicore.samples.charge.infrastructure.jpa.entity
 
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.Table
 import me.choicore.samples.charge.domain.ChargingMethod
 import me.choicore.samples.charge.domain.ChargingUnit.ChargingDetail
@@ -16,6 +18,7 @@ class ChargingDetailEntity(
     val strategyId: Long?,
     val basisStartTime: LocalTime,
     val basisEndTime: LocalTime,
+    @Enumerated(EnumType.STRING)
     val method: ChargingMethod,
     val rate: Int,
     val appliedStartTime: LocalTime,

@@ -1,7 +1,6 @@
 package me.choicore.samples.charge.infrastructure.jpa.entity
 
 import me.choicore.samples.charge.domain.ChargingUnit
-import me.choicore.samples.charge.domain.ChargingUnit.ChargingUnitIdentifier
 import me.choicore.samples.charge.domain.TimeUtils
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -25,7 +24,7 @@ class ChargingUnitEntityRepositoryTests(
     fun t1() {
         val chargingUnit =
             ChargingUnit(
-                identifier = ChargingUnitIdentifier.unregistered(1),
+                targetId = 1,
                 chargedOn = LocalDate.now(),
                 startTime = TimeUtils.MAX_TIME,
                 endTime = TimeUtils.MAX_TIME,

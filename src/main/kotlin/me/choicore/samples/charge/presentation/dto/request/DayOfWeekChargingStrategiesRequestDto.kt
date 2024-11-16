@@ -3,7 +3,6 @@ package me.choicore.samples.charge.presentation.dto.request
 import me.choicore.samples.charge.domain.ChargingMethod
 import me.choicore.samples.charge.domain.DayOfWeekChargingStrategies
 import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy
-import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy.DayOfWeekChargingStrategyIdentifier
 import me.choicore.samples.charge.domain.Timeline
 import me.choicore.samples.charge.presentation.dto.TimeSlotDto
 import java.time.DayOfWeek
@@ -27,7 +26,7 @@ data class DayOfWeekChargingStrategiesRequestDto(
             dayOfWeek: DayOfWeek,
         ): DayOfWeekChargingStrategy =
             DayOfWeekChargingStrategy(
-                identifier = DayOfWeekChargingStrategyIdentifier.unregistered(complexId),
+                complexId = complexId,
                 dayOfWeek = dayOfWeek,
                 mode = this.mode.toChargingMode(rate = this.rate),
                 timeline = this.toTimeline(),

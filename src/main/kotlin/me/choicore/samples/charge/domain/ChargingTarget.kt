@@ -7,7 +7,12 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 data class ChargingTarget(
-    val identifier: ChargingTargetIdentifier,
+    val targetId: Long = 0,
+    val accessId: Long = 0,
+    val complexId: Long = 0,
+    val building: String,
+    val unit: String,
+    val licensePlate: String,
     val arrivedAt: LocalDateTime,
     var departedAt: LocalDateTime?,
     var status: ChargingStatus,
@@ -111,7 +116,7 @@ data class ChargingTarget(
             }
 
         return ChargingUnit(
-            identifier = ChargingUnit.ChargingUnitIdentifier.unregistered(targetId = this.identifier.targetId),
+            targetId = this.targetId,
             chargedOn = chargedOn,
             startTime = startTime,
             endTime = endTime,
@@ -124,49 +129,4 @@ data class ChargingTarget(
                 .toLocalDate()
                 .plusDays(1)
                 .atStartOfDay()
-
-    class ChargingTargetIdentifier private constructor(
-        private val _targetId: Long? = null,
-        val accessId: Long? = null,
-        val complexId: Long,
-        val building: String,
-        val unit: String,
-        val licensePlate: String,
-    ) {
-        val targetId: Long get() = _targetId ?: throw IllegalStateException("The target ID must be provided.")
-
-        companion object {
-            fun unregistered(
-                accessId: Long? = null,
-                complexId: Long,
-                building: String,
-                unit: String,
-                licensePlate: String,
-            ): ChargingTargetIdentifier =
-                ChargingTargetIdentifier(
-                    accessId = accessId,
-                    complexId = complexId,
-                    building = building,
-                    unit = unit,
-                    licensePlate = licensePlate,
-                )
-
-            fun registered(
-                targetId: Long,
-                accessId: Long? = null,
-                complexId: Long,
-                building: String,
-                unit: String,
-                licensePlate: String,
-            ): ChargingTargetIdentifier =
-                ChargingTargetIdentifier(
-                    _targetId = targetId,
-                    accessId = accessId,
-                    complexId = complexId,
-                    building = building,
-                    unit = unit,
-                    licensePlate = licensePlate,
-                )
-        }
-    }
 }

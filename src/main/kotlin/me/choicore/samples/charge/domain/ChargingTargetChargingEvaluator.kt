@@ -14,14 +14,14 @@ class ChargingTargetChargingEvaluator(
 ) : ChargingEvaluator {
     override fun evaluate(chargeRequest: ChargeRequest) {
         val (context: ChargingContext, target: ChargingTarget, chargedOn: LocalDate) = chargeRequest
-        log.info("Evaluating charge for target: ${target.identifier.targetId} on $chargedOn")
+        log.info("Evaluating charge for target: ${target.targetId} on $chargedOn")
 
         var currentChargedOn: LocalDate = target.nextChargedOn
 
         val units: MutableList<ChargingUnit> = mutableListOf()
 
         while (currentChargedOn <= chargedOn) {
-            log.debug("Processing charge on {} for target: {}", currentChargedOn, target.identifier.targetId)
+            log.debug("Processing charge on {} for target: {}", currentChargedOn, target.targetId)
 
             val chargingUnit: ChargingUnit = target.getChargingUnit(chargedOn = currentChargedOn)
 
@@ -32,7 +32,7 @@ class ChargingTargetChargingEvaluator(
             units.add(chargingUnit)
 
             if (target.status == CHARGED) {
-                log.info("Charging target: ${target.identifier.targetId} fully charged. Ending evaluation.")
+                log.info("Charging target: ${target.targetId} fully charged. Ending evaluation.")
                 break
             }
 
@@ -40,7 +40,7 @@ class ChargingTargetChargingEvaluator(
         }
 
         chargingTransactionRegistrar.register(target = target, units = units)
-        log.info("Charging transaction registered for target: ${target.identifier.targetId} with ${units.size} units")
+        log.info("Charging transaction registered for target: ${target.targetId} with ${units.size} units")
 
         chargeRequest.processed()
     }

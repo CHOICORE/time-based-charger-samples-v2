@@ -32,7 +32,7 @@ class ChargingTransactionRegistrar(
         }
         chargingTargetRepository.updateForStatus(target)
         chargingUnitRepository.markAsInactiveByTargetIdAndChargedOnGreatThanEqual(
-            target.identifier.targetId,
+            target.targetId,
             target.arrivedOn,
         )
     }

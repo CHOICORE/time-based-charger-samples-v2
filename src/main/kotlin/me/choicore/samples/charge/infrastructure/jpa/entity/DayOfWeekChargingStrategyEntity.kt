@@ -28,24 +28,21 @@ class DayOfWeekChargingStrategyEntity(
         timeline = timeline,
     ) {
     constructor(dayOfWeekChargingStrategy: DayOfWeekChargingStrategy) : this(
-        complexId = dayOfWeekChargingStrategy.identifier.complexId,
+        complexId = dayOfWeekChargingStrategy.complexId,
         method = dayOfWeekChargingStrategy.mode.method,
         rate = dayOfWeekChargingStrategy.mode.rate,
         timeline = dayOfWeekChargingStrategy.timeline,
-        stationId = dayOfWeekChargingStrategy.identifier.stationId,
+        stationId = dayOfWeekChargingStrategy.stationId,
         dayOfWeek = dayOfWeekChargingStrategy.dayOfWeek,
     )
 
     override fun toChargingStrategy(): DayOfWeekChargingStrategy =
         DayOfWeekChargingStrategy(
-            identifier =
-                DayOfWeekChargingStrategy.DayOfWeekChargingStrategyIdentifier.registered(
-                    strategyId = id,
-                    complexId = complexId,
-                    stationId = stationId,
-                ),
-            dayOfWeek = dayOfWeek,
+            strategyId = this.id,
+            complexId = this.complexId,
+            stationId = this.stationId,
+            dayOfWeek = this.dayOfWeek,
             mode = super.toChargingMode(),
-            timeline = timeline,
+            timeline = this.timeline,
         )
 }

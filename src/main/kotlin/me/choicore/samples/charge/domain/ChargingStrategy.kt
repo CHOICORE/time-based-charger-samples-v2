@@ -4,15 +4,10 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 
 sealed interface ChargingStrategy {
-    val identifier: ChargingStrategyIdentifier
+    val strategyId: Long
     val mode: ChargingMode
     val timeline: Timeline
     val period: Period
-
-    sealed interface ChargingStrategyIdentifier {
-        val strategyId: Long
-        val complexId: Long
-    }
 
     fun supports(date: LocalDate): Boolean
 
@@ -22,6 +17,8 @@ sealed interface ChargingStrategy {
     }
 
     interface DayOfWeekChargingStrategy : ChargingStrategy {
+        val stationId: Long
+        val complexId: Long
         val dayOfWeek: DayOfWeek
         override val period: Period get() = Period.REPEATABLE
 
@@ -29,6 +26,7 @@ sealed interface ChargingStrategy {
     }
 
     interface SpecifiedDateChargingStrategy : ChargingStrategy {
+        val complexId: Long
         val specifiedDate: LocalDate
         override val period: Period get() = Period.ONCE
 

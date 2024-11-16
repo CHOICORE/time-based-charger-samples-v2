@@ -6,7 +6,8 @@ import java.time.temporal.ChronoUnit.MINUTES
 import java.time.temporal.ChronoUnit.SECONDS
 
 data class ChargingUnit(
-    val identifier: ChargingUnitIdentifier,
+    val unitId: Long = 0,
+    val targetId: Long,
     val chargedOn: LocalDate,
     val startTime: LocalTime,
     val endTime: LocalTime,
@@ -33,36 +34,13 @@ data class ChargingUnit(
                 this.addDetail(
                     ChargingDetail(
                         unitId = null,
-                        strategyId = strategy.identifier.strategyId,
+                        strategyId = strategy.strategyId,
                         mode = strategy.mode,
                         basis = basis,
                         applied = applied,
                     ),
                 )
             }
-        }
-    }
-
-    data class ChargingUnitIdentifier(
-        private val _unitId: Long? = null,
-        val targetId: Long,
-    ) {
-        val unitId: Long get() = _unitId ?: throw IllegalStateException("The unit ID must be provided.")
-
-        companion object {
-            fun unregistered(targetId: Long): ChargingUnitIdentifier =
-                ChargingUnitIdentifier(
-                    targetId = targetId,
-                )
-
-            fun registered(
-                unitId: Long,
-                targetId: Long,
-            ): ChargingUnitIdentifier =
-                ChargingUnitIdentifier(
-                    _unitId = unitId,
-                    targetId = targetId,
-                )
         }
     }
 

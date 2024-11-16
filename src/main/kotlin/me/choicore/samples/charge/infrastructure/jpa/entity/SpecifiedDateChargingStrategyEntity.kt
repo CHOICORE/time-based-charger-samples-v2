@@ -29,12 +29,8 @@ class SpecifiedDateChargingStrategyEntity(
         }
 
         return SpecifiedDateChargingStrategy(
-            identifier =
-                SpecifiedDateChargingStrategy.SpecifiedDateChargingStrategyIdentifier
-                    .registered(
-                        strategyId = this.id,
-                        complexId = this.complexId,
-                    ),
+            strategyId = this.id,
+            complexId = this.complexId,
             specifiedDate = this.specifiedDate,
             mode = super.toChargingMode(),
             timeline = super.timeline,

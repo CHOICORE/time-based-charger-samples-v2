@@ -38,12 +38,12 @@ data class DayOfWeekChargingStrategiesResponseDto(
             fun from(dayOfWeekChargingStrategy: DayOfWeekChargingStrategy): DayOfWeekChargingStrategyDto =
                 DayOfWeekChargingStrategyDto(
                     strategyId =
-                        if (dayOfWeekChargingStrategy.identifier.strategyId ==
+                        if (dayOfWeekChargingStrategy.strategyId ==
                             0L
                         ) {
                             null
                         } else {
-                            dayOfWeekChargingStrategy.identifier.strategyId
+                            dayOfWeekChargingStrategy.strategyId
                         },
                     mode = dayOfWeekChargingStrategy.mode.method,
                     rate = dayOfWeekChargingStrategy.mode.rate,

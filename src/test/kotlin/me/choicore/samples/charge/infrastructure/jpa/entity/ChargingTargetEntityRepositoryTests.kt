@@ -46,7 +46,7 @@ class ChargingTargetEntityRepositoryTests(
 //        )
 //        val plusDays = start.plusDays(1)
         while (start < end) {
-            (1..1)
+            (1..3000)
                 .map {
                     val building = buildings.random()
                     val unit = "${building.substring(0, 1)}${(1..10).random().toString().padStart(2, '0')}"
@@ -54,7 +54,7 @@ class ChargingTargetEntityRepositoryTests(
                     val arrivedAt =
                         start
                             .atStartOfDay()
-                            .plusSeconds((1..86399).random().toLong())
+                            .plusSeconds((60000..86399).random().toLong())
                             .plusNanos((1..999999999).random().toLong())
                     var departedAt = arrivedAt.plusMinutes((1..120).random().toLong())
                     if (departedAt.toLocalDate() != arrivedAt.toLocalDate()) {
@@ -77,14 +77,13 @@ class ChargingTargetEntityRepositoryTests(
 
     @Test
     fun t2() {
-        val found =
-            chargingTargetEntityRepository.findByCriteriaAndDepartedAtIsNullForUpdate(
-                ChargingTargetCriteria(
-                    complexId = 1L,
-                    building = "100",
-                    unit = "A01",
-                    licensePlate = "100가1000",
-                ),
-            )
+        chargingTargetEntityRepository.findByCriteriaAndDepartedAtIsNullForUpdate(
+            ChargingTargetCriteria(
+                complexId = 1L,
+                building = "100",
+                unit = "A01",
+                licensePlate = "100가1000",
+            ),
+        )
     }
 }

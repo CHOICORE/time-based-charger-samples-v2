@@ -1,6 +1,5 @@
 package me.choicore.samples.charge.domain
 
-import me.choicore.samples.charge.domain.SpecifiedDateChargingStrategy.SpecifiedDateChargingStrategyIdentifier
 import java.time.LocalDate
 
 class SpecifiedDateChargingStrategies() : AbstractChargingStrategies<LocalDate, SpecifiedDateChargingStrategy>() {
@@ -18,7 +17,6 @@ class SpecifiedDateChargingStrategies() : AbstractChargingStrategies<LocalDate, 
             val remainingTimeline: Timeline = Timeline.remain(super.getOverallTimeSlots(specifiedDateChargingStrategy))
             specifiedDateChargingStrategy.add(
                 SpecifiedDateChargingStrategy(
-                    identifier = SpecifiedDateChargingStrategyIdentifier.empty(),
                     specifiedDate = date,
                     mode = ChargingMode.Standard,
                     timeline = remainingTimeline,

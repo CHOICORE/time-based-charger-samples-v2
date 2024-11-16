@@ -21,7 +21,7 @@ class ChargingUnitEntity(
     val adjustable: Boolean = true,
 ) : AutoIncrement() {
     constructor(chargingUnit: ChargingUnit) : this(
-        targetId = chargingUnit.identifier.targetId,
+        targetId = chargingUnit.targetId,
         chargedOn = chargingUnit.chargedOn,
         startTime = chargingUnit.startTime,
         endTime = chargingUnit.endTime,
@@ -33,7 +33,8 @@ class ChargingUnitEntity(
 
     fun toChargingUnit(): ChargingUnit =
         ChargingUnit(
-            identifier = ChargingUnit.ChargingUnitIdentifier.unregistered(this.targetId),
+            unitId = this.id,
+            targetId = this.targetId,
             chargedOn = this.chargedOn,
             startTime = this.startTime,
             endTime = minOf(this.endTime, TimeUtils.MAX_TIME),

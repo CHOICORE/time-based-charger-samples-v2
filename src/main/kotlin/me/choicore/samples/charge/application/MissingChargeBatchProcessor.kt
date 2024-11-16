@@ -58,7 +58,7 @@ class MissingChargeBatchProcessor(
 
             for (chargingTarget: ChargingTarget in chargingTargets) {
                 log.debug(
-                    "Evaluating charge for target id: ${chargingTarget.identifier.targetId}, derived from access id: ${chargingTarget.identifier.accessId}",
+                    "Evaluating charge for target id: ${chargingTarget.targetId}, derived from access id: ${chargingTarget.accessId}",
                 )
                 chargingEvaluator.evaluate(
                     ChargeRequest(

@@ -26,11 +26,11 @@ class ChargingTargetEntity(
     var lastChargedOn: LocalDate? = null,
 ) : AutoIncrement() {
     constructor(chargingTarget: ChargingTarget) : this(
-        accessId = chargingTarget.identifier.accessId,
-        complexId = chargingTarget.identifier.complexId,
-        building = chargingTarget.identifier.building,
-        unit = chargingTarget.identifier.unit,
-        licensePlate = chargingTarget.identifier.licensePlate,
+        accessId = if (chargingTarget.accessId == 0L) null else chargingTarget.accessId,
+        complexId = chargingTarget.complexId,
+        building = chargingTarget.building,
+        unit = chargingTarget.unit,
+        licensePlate = chargingTarget.licensePlate,
         arrivedAt = chargingTarget.arrivedAt,
         departedAt = chargingTarget.departedAt,
         status = chargingTarget.status,
@@ -39,14 +39,12 @@ class ChargingTargetEntity(
 
     fun toChargingTarget(): ChargingTarget =
         ChargingTarget(
-            identifier =
-                ChargingTarget.ChargingTargetIdentifier.registered(
-                    targetId = id,
-                    complexId = complexId,
-                    building = building,
-                    unit = unit,
-                    licensePlate = licensePlate,
-                ),
+            targetId = this.id,
+            accessId = this.accessId ?: 0,
+            complexId = this.complexId,
+            building = this.building,
+            unit = this.unit,
+            licensePlate = licensePlate,
             arrivedAt = arrivedAt,
             departedAt = departedAt,
             status = status,

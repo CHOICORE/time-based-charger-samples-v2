@@ -4,7 +4,6 @@ import me.choicore.samples.charge.application.AccessEvent.Type.ARRIVAL
 import me.choicore.samples.charge.application.AccessEvent.Type.DEPARTURE
 import me.choicore.samples.charge.domain.ChargingStatus.REGISTERED
 import me.choicore.samples.charge.domain.ChargingTarget
-import me.choicore.samples.charge.domain.ChargingTarget.ChargingTargetIdentifier
 import me.choicore.samples.charge.domain.ChargingTargetCriteria
 import me.choicore.samples.charge.domain.ChargingTargetReader
 import me.choicore.samples.charge.domain.ChargingTargetRegistrar
@@ -51,14 +50,11 @@ class AccessEventProcessor(
 
                 val chargingTarget =
                     ChargingTarget(
-                        identifier =
-                            ChargingTargetIdentifier.unregistered(
-                                accessId = event.accessId,
-                                complexId = event.complexId,
-                                building = event.building,
-                                unit = event.unit,
-                                licensePlate = event.licensePlate,
-                            ),
+                        accessId = event.accessId,
+                        complexId = event.complexId,
+                        building = event.building,
+                        unit = event.unit,
+                        licensePlate = event.licensePlate,
                         arrivedAt = event.accessedAt,
                         departedAt = null,
                         status = REGISTERED,

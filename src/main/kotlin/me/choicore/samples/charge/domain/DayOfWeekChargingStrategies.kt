@@ -1,6 +1,5 @@
 package me.choicore.samples.charge.domain
 
-import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy.DayOfWeekChargingStrategyIdentifier
 import java.time.DayOfWeek
 import java.time.LocalDate
 
@@ -41,7 +40,6 @@ class DayOfWeekChargingStrategies() : AbstractChargingStrategies<DayOfWeek, DayO
 
             dayOfWeekChargingStrategies.add(
                 DayOfWeekChargingStrategy(
-                    identifier = DayOfWeekChargingStrategyIdentifier.empty(),
                     dayOfWeek = dayOfWeek,
                     mode = ChargingMode.Standard,
                     timeline = remainingTimeline,

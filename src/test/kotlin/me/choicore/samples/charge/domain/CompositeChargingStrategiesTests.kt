@@ -1,8 +1,6 @@
 package me.choicore.samples.charge.domain
 
 import me.choicore.samples.charge.domain.ChargingMode.Surcharge
-import me.choicore.samples.charge.domain.ChargingUnit.ChargingUnitIdentifier
-import me.choicore.samples.charge.domain.SpecifiedDateChargingStrategy.SpecifiedDateChargingStrategyIdentifier
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.time.LocalTime
@@ -15,7 +13,8 @@ class CompositeChargingStrategiesTests {
                 .builder()
                 .once(
                     SpecifiedDateChargingStrategy(
-                        SpecifiedDateChargingStrategyIdentifier.registered(1, 1),
+                        strategyId = 1,
+                        complexId = 1,
                         LocalDate.now(),
                         Surcharge(10),
                         Timeline(
@@ -24,7 +23,9 @@ class CompositeChargingStrategiesTests {
                     ),
                 ).repeatable(
                     DayOfWeekChargingStrategy(
-                        DayOfWeekChargingStrategy.DayOfWeekChargingStrategyIdentifier.registered(2, 2, 1),
+                        strategyId = 2,
+                        complexId = 2,
+                        stationId = 1,
                         LocalDate.now().dayOfWeek,
                         Surcharge(20),
                         Timeline(
@@ -35,7 +36,8 @@ class CompositeChargingStrategiesTests {
 
         val chargingUnit =
             ChargingUnit(
-                identifier = ChargingUnitIdentifier.registered(1, 1),
+                unitId = 1,
+                targetId = 1,
                 chargedOn = LocalDate.now(),
                 startTime = LocalTime.of(4, 0),
                 endTime = LocalTime.of(23, 0),
