@@ -61,7 +61,7 @@ data class ChargingUnit(
     data class ChargingDetail(
         val detailId: Long? = null,
         val unitId: Long? = null,
-        val strategyId: Long,
+        val strategyId: Long? = null,
         val mode: ChargingMode,
         val basis: TimeSlot,
         val applied: TimeSlot,

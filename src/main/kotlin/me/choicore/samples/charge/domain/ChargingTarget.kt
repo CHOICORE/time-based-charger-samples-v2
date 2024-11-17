@@ -62,7 +62,8 @@ data class ChargingTarget(
     /**
      * 청구 상태 변경 (대기)
      */
-    fun pended() {
+    fun pended(chargedOn: LocalDate) {
+        this.lastChargedOn = chargedOn
         this.status = PENDED
     }
 
@@ -92,7 +93,7 @@ data class ChargingTarget(
             if (arrivedOn == chargedOn) {
                 val exemptionCutoffTime: LocalDateTime = arrivedAt.plusMinutes(exemptionThreshold)
                 if (exemptionCutoffTime >= this.nextDayMidnight) {
-                    this.status = PENDED
+                    this.pended(chargedOn = chargedOn)
                     return false
                 }
             }

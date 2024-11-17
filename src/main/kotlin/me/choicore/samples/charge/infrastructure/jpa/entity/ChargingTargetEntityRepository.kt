@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 interface ChargingTargetEntityRepository : JpaRepository<ChargingTargetEntity, Long> {
     @Query(
@@ -17,12 +18,14 @@ interface ChargingTargetEntityRepository : JpaRepository<ChargingTargetEntity, L
         SELECT c
         FROM ChargingTargetEntity c
         WHERE c.complexId = :complexId
-          AND (c.lastChargedOn IS NULL OR c.lastChargedOn < :lastChargedOn)
-          AND c.status IN :statuses
+        AND c.arrivedAt < :arrivedAtThreshold  
+        AND (c.lastChargedOn IS NULL OR c.lastChargedOn < :lastChargedOn)
+        AND c.status IN :statuses
         """,
     )
-    fun findByComplexIdAndLastChargedOnIsNullOrLastChargedOnLessThanAndStatusIn(
+    fun findByComplexIdAndArrivedAtIsBeforeAndLastChargedOnIsNullOrLastChargedOnLessThanAndStatusIn(
         complexId: Long,
+        arrivedAtThreshold: LocalDateTime,
         lastChargedOn: LocalDate,
         statuses: Set<ChargingStatus>,
         pageable: Pageable,

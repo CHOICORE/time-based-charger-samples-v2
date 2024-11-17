@@ -25,9 +25,9 @@ class ChargingTargetEntityRepositoryTests(
         val plateLastNumbers: IntRange = (1000..1010)
         var start: LocalDate = LocalDate.of(2024, 10, 1)
         val end: LocalDate = LocalDate.now()
-        start = end.minusDays(1)
+        start = end.minusDays(2)
 
-        chargingTargetEntityRepository.deleteAll()
+//        chargingTargetEntityRepository.deleteAll()
 //        chargingTargetEntityRepository.save(
 //            ChargingTargetEntity(
 //                complexId = 1L,
@@ -46,7 +46,7 @@ class ChargingTargetEntityRepositoryTests(
 //        )
 //        val plusDays = start.plusDays(1)
         while (start < end) {
-            (1..3000)
+            (1..10)
                 .map {
                     val building = buildings.random()
                     val unit = "${building.substring(0, 1)}${(1..10).random().toString().padStart(2, '0')}"
@@ -61,7 +61,7 @@ class ChargingTargetEntityRepositoryTests(
                         departedAt = null
                     }
                     ChargingTargetEntity(
-                        complexId = 1L,
+                        complexId = (1..1).random().toLong(),
                         building = building,
                         unit = unit,
                         licensePlate = plate,

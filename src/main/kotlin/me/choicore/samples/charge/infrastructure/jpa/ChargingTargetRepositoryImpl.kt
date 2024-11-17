@@ -1,6 +1,7 @@
 package me.choicore.samples.charge.infrastructure.jpa
 
 import me.choicore.samples.charge.domain.ChargingStatus.CHARGING
+import me.choicore.samples.charge.domain.ChargingStatus.PENDED
 import me.choicore.samples.charge.domain.ChargingStatus.REGISTERED
 import me.choicore.samples.charge.domain.ChargingTarget
 import me.choicore.samples.charge.domain.ChargingTargetCriteria
@@ -52,10 +53,11 @@ class ChargingTargetRepositoryImpl(
         size: Int,
     ): List<ChargingTarget> =
         chargingTargetEntityRepository
-            .findByComplexIdAndLastChargedOnIsNullOrLastChargedOnLessThanAndStatusIn(
+            .findByComplexIdAndArrivedAtIsBeforeAndLastChargedOnIsNullOrLastChargedOnLessThanAndStatusIn(
                 complexId = complexId,
+                arrivedAtThreshold = chargedOn.plusDays(1).atStartOfDay(),
                 lastChargedOn = chargedOn,
-                statuses = setOf(REGISTERED, CHARGING),
+                statuses = setOf(REGISTERED, CHARGING, PENDED),
                 pageable = PageRequest.ofSize(size),
             ).map { it.toChargingTarget() }
 }

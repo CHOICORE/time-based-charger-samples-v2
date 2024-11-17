@@ -40,7 +40,7 @@ class ChargingDetailEntity(
     fun toChargingDetail(): ChargingDetail =
         ChargingDetail(
             unitId = this.unitId,
-            strategyId = this.strategyId!!,
+            strategyId = this.strategyId,
             basis =
                 TimeSlot(
                     startTimeInclusive = this.basisStartTime,
