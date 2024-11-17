@@ -1,6 +1,6 @@
 package me.choicore.samples.charge.presentation.dto.request
 
-import me.choicore.samples.charge.domain.ChargingStation
+import me.choicore.samples.charge.domain.strategy.station.ChargingStation
 import java.time.LocalDate
 
 data class ChargingStationRegistrationRequestDto(

@@ -3,7 +3,7 @@ package me.choicore.samples.charge.infrastructure.jpa
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter
-import me.choicore.samples.charge.domain.Timeline
+import me.choicore.samples.charge.domain.core.Timeline
 
 @Converter(autoApply = true)
 class TimelineConverter(

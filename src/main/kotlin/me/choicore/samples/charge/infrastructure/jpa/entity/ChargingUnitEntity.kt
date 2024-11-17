@@ -2,8 +2,8 @@ package me.choicore.samples.charge.infrastructure.jpa.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
-import me.choicore.samples.charge.domain.ChargingUnit
-import me.choicore.samples.charge.domain.TimeUtils
+import me.choicore.samples.charge.domain.core.TimeUtils
+import me.choicore.samples.charge.domain.target.ChargingUnit
 import me.choicore.samples.common.jpa.AutoIncrement
 import java.time.LocalDate
 import java.time.LocalTime

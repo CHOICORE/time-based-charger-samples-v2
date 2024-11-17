@@ -1,13 +1,13 @@
 package me.choicore.samples.charge.presentation.dto.response
 
-import me.choicore.samples.charge.domain.ChargingMethod
-import me.choicore.samples.charge.domain.ChargingMethod.DISCHARGE
-import me.choicore.samples.charge.domain.ChargingMethod.STANDARD
-import me.choicore.samples.charge.domain.ChargingMethod.SURCHARGE
-import me.choicore.samples.charge.domain.ChargingMode
-import me.choicore.samples.charge.domain.DayOfWeekChargingStrategies
-import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy
-import me.choicore.samples.charge.domain.Timeline
+import me.choicore.samples.charge.domain.core.ChargingMethod
+import me.choicore.samples.charge.domain.core.ChargingMethod.DISCHARGE
+import me.choicore.samples.charge.domain.core.ChargingMethod.STANDARD
+import me.choicore.samples.charge.domain.core.ChargingMethod.SURCHARGE
+import me.choicore.samples.charge.domain.core.ChargingMode
+import me.choicore.samples.charge.domain.core.Timeline
+import me.choicore.samples.charge.domain.strategy.DayOfWeekChargingStrategies
+import me.choicore.samples.charge.domain.strategy.DayOfWeekChargingStrategy
 import me.choicore.samples.charge.presentation.dto.TimeSlotDto
 
 data class DayOfWeekChargingStrategiesResponseDto(

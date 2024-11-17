@@ -2,11 +2,11 @@ package me.choicore.samples.charge.application
 
 import me.choicore.samples.charge.application.AccessEvent.Type.ARRIVAL
 import me.choicore.samples.charge.application.AccessEvent.Type.DEPARTURE
-import me.choicore.samples.charge.domain.ChargingStatus.REGISTERED
-import me.choicore.samples.charge.domain.ChargingTarget
-import me.choicore.samples.charge.domain.ChargingTargetCriteria
-import me.choicore.samples.charge.domain.ChargingTargetReader
-import me.choicore.samples.charge.domain.ChargingTargetRegistrar
+import me.choicore.samples.charge.domain.core.ChargingStatus.REGISTERED
+import me.choicore.samples.charge.domain.target.ChargingTarget
+import me.choicore.samples.charge.domain.target.ChargingTargetCriteria
+import me.choicore.samples.charge.domain.target.ChargingTargetReader
+import me.choicore.samples.charge.domain.target.ChargingTargetRegistrar
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service

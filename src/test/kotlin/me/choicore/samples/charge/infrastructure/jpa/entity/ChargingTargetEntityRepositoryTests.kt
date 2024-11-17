@@ -1,7 +1,7 @@
 package me.choicore.samples.charge.infrastructure.jpa.entity
 
-import me.choicore.samples.charge.domain.ChargingStatus.REGISTERED
-import me.choicore.samples.charge.domain.ChargingTargetCriteria
+import me.choicore.samples.charge.domain.core.ChargingStatus.REGISTERED
+import me.choicore.samples.charge.domain.target.ChargingTargetCriteria
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE

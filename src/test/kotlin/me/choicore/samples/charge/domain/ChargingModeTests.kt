@@ -1,8 +1,8 @@
 package me.choicore.samples.charge.domain
 
-import me.choicore.samples.charge.domain.ChargingMode.Discharge
-import me.choicore.samples.charge.domain.ChargingMode.Standard
-import me.choicore.samples.charge.domain.ChargingMode.Surcharge
+import me.choicore.samples.charge.domain.core.ChargingMode.Discharge
+import me.choicore.samples.charge.domain.core.ChargingMode.Standard
+import me.choicore.samples.charge.domain.core.ChargingMode.Surcharge
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal

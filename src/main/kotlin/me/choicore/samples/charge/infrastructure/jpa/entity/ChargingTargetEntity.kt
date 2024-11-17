@@ -4,8 +4,8 @@ import jakarta.persistence.Entity
 import jakarta.persistence.EnumType.STRING
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Table
-import me.choicore.samples.charge.domain.ChargingStatus
-import me.choicore.samples.charge.domain.ChargingTarget
+import me.choicore.samples.charge.domain.core.ChargingStatus
+import me.choicore.samples.charge.domain.target.ChargingTarget
 import me.choicore.samples.common.jpa.AutoIncrement
 import java.time.LocalDate
 import java.time.LocalDateTime

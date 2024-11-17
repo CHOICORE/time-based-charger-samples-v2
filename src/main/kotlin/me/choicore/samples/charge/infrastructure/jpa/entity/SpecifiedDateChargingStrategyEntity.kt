@@ -3,9 +3,9 @@ package me.choicore.samples.charge.infrastructure.jpa.entity
 import jakarta.persistence.DiscriminatorValue
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
-import me.choicore.samples.charge.domain.ChargingMethod
-import me.choicore.samples.charge.domain.SpecifiedDateChargingStrategy
-import me.choicore.samples.charge.domain.Timeline
+import me.choicore.samples.charge.domain.core.ChargingMethod
+import me.choicore.samples.charge.domain.core.Timeline
+import me.choicore.samples.charge.domain.strategy.SpecifiedDateChargingStrategy
 import java.time.LocalDate
 
 @Entity

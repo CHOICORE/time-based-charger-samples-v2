@@ -1,7 +1,7 @@
 package me.choicore.samples.charge.infrastructure.jpa
 
-import me.choicore.samples.charge.domain.SpecifiedDateChargingStrategy
-import me.choicore.samples.charge.domain.SpecifiedDateChargingStrategyRepository
+import me.choicore.samples.charge.domain.strategy.SpecifiedDateChargingStrategy
+import me.choicore.samples.charge.domain.strategy.SpecifiedDateChargingStrategyRepository
 import me.choicore.samples.charge.infrastructure.jpa.entity.SpecifiedDateChargingStrategyEntityRepository
 import org.springframework.stereotype.Repository
 import java.time.LocalDate

@@ -5,9 +5,9 @@ import jakarta.persistence.Entity
 import jakarta.persistence.EnumType.STRING
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Table
-import me.choicore.samples.charge.domain.ChargingMethod
-import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy
-import me.choicore.samples.charge.domain.Timeline
+import me.choicore.samples.charge.domain.core.ChargingMethod
+import me.choicore.samples.charge.domain.core.Timeline
+import me.choicore.samples.charge.domain.strategy.DayOfWeekChargingStrategy
 import java.time.DayOfWeek
 
 @Entity

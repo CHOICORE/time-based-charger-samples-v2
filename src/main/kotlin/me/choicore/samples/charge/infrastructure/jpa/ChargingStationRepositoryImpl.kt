@@ -1,9 +1,9 @@
 package me.choicore.samples.charge.infrastructure.jpa
 
-import me.choicore.samples.charge.domain.ChargingStation
-import me.choicore.samples.charge.domain.ChargingStationRepository
-import me.choicore.samples.charge.domain.DayOfWeekChargingStrategies
-import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy
+import me.choicore.samples.charge.domain.strategy.DayOfWeekChargingStrategies
+import me.choicore.samples.charge.domain.strategy.DayOfWeekChargingStrategy
+import me.choicore.samples.charge.domain.strategy.station.ChargingStation
+import me.choicore.samples.charge.domain.strategy.station.ChargingStationRepository
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingStationEntity
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingStationEntityRepository
 import me.choicore.samples.charge.infrastructure.jpa.entity.DayOfWeekChargingStrategyEntity

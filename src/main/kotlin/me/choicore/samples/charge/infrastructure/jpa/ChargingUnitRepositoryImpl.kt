@@ -1,7 +1,7 @@
 package me.choicore.samples.charge.infrastructure.jpa
 
-import me.choicore.samples.charge.domain.ChargingUnit
-import me.choicore.samples.charge.domain.ChargingUnitRepository
+import me.choicore.samples.charge.domain.target.ChargingUnit
+import me.choicore.samples.charge.domain.target.ChargingUnitRepository
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingDetailEntity
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingDetailEntityRepository
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingUnitEntity

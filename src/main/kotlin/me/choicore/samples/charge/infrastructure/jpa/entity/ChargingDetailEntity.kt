@@ -4,10 +4,10 @@ import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Table
-import me.choicore.samples.charge.domain.ChargingMethod
-import me.choicore.samples.charge.domain.ChargingUnit.ChargingDetail
-import me.choicore.samples.charge.domain.TimeSlot
-import me.choicore.samples.charge.domain.TimeUtils
+import me.choicore.samples.charge.domain.core.ChargingMethod
+import me.choicore.samples.charge.domain.core.TimeSlot
+import me.choicore.samples.charge.domain.core.TimeUtils
+import me.choicore.samples.charge.domain.target.ChargingUnit.ChargingDetail
 import me.choicore.samples.common.jpa.AutoIncrement
 import java.time.LocalTime
 

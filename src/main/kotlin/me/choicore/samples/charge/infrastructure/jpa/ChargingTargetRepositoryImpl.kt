@@ -1,11 +1,11 @@
 package me.choicore.samples.charge.infrastructure.jpa
 
-import me.choicore.samples.charge.domain.ChargingStatus.CHARGING
-import me.choicore.samples.charge.domain.ChargingStatus.PENDED
-import me.choicore.samples.charge.domain.ChargingStatus.REGISTERED
-import me.choicore.samples.charge.domain.ChargingTarget
-import me.choicore.samples.charge.domain.ChargingTargetCriteria
-import me.choicore.samples.charge.domain.ChargingTargetRepository
+import me.choicore.samples.charge.domain.core.ChargingStatus.CHARGING
+import me.choicore.samples.charge.domain.core.ChargingStatus.PENDED
+import me.choicore.samples.charge.domain.core.ChargingStatus.REGISTERED
+import me.choicore.samples.charge.domain.target.ChargingTarget
+import me.choicore.samples.charge.domain.target.ChargingTargetCriteria
+import me.choicore.samples.charge.domain.target.ChargingTargetRepository
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingTargetEntity
 import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingTargetEntityRepository
 import org.springframework.data.domain.PageRequest

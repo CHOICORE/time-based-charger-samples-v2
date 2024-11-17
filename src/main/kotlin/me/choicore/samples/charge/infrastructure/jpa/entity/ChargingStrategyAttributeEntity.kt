@@ -11,10 +11,10 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.Inheritance
 import jakarta.persistence.InheritanceType
 import jakarta.persistence.Table
-import me.choicore.samples.charge.domain.ChargingMethod
-import me.choicore.samples.charge.domain.ChargingMode
-import me.choicore.samples.charge.domain.ChargingStrategy
-import me.choicore.samples.charge.domain.Timeline
+import me.choicore.samples.charge.domain.core.ChargingMethod
+import me.choicore.samples.charge.domain.core.ChargingMode
+import me.choicore.samples.charge.domain.core.Timeline
+import me.choicore.samples.charge.domain.strategy.ChargingStrategy
 import me.choicore.samples.charge.infrastructure.jpa.TimelineConverter
 import me.choicore.samples.common.jpa.AutoIncrement
 

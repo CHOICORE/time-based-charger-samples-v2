@@ -1,5 +1,6 @@
 package me.choicore.samples.charge.domain
 
+import me.choicore.samples.charge.domain.target.ChargingTarget
 import java.time.LocalDate
 
 data class ChargeRequest(

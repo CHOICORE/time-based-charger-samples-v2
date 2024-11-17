@@ -1,7 +1,7 @@
 package me.choicore.samples.charge.presentation.dto
 
-import me.choicore.samples.charge.domain.TimeSlot
-import me.choicore.samples.charge.domain.TimeUtils
+import me.choicore.samples.charge.domain.core.TimeSlot
+import me.choicore.samples.charge.domain.core.TimeUtils
 import java.time.LocalTime
 
 data class TimeSlotDto(

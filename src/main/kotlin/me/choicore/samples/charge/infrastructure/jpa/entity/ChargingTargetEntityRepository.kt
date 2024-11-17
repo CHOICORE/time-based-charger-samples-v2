@@ -1,8 +1,8 @@
 package me.choicore.samples.charge.infrastructure.jpa.entity
 
 import jakarta.persistence.LockModeType.PESSIMISTIC_WRITE
-import me.choicore.samples.charge.domain.ChargingStatus
-import me.choicore.samples.charge.domain.ChargingTargetCriteria
+import me.choicore.samples.charge.domain.core.ChargingStatus
+import me.choicore.samples.charge.domain.target.ChargingTargetCriteria
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Lock

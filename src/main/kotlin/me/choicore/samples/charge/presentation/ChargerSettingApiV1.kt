@@ -1,9 +1,9 @@
 package me.choicore.samples.charge.presentation
 
 import me.choicore.samples.charge.domain.ChargingMeter
-import me.choicore.samples.charge.domain.ChargingStation
-import me.choicore.samples.charge.domain.ChargingStationReader
-import me.choicore.samples.charge.domain.ChargingStationRegistrar
+import me.choicore.samples.charge.domain.strategy.station.ChargingStation
+import me.choicore.samples.charge.domain.strategy.station.ChargingStationReader
+import me.choicore.samples.charge.domain.strategy.station.ChargingStationRegistrar
 import me.choicore.samples.charge.presentation.dto.request.ChargingStationRegistrationRequestDto
 import me.choicore.samples.charge.presentation.dto.response.ChargingStationResponse
 import org.springframework.http.ResponseEntity

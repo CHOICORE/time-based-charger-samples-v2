@@ -1,6 +1,12 @@
 package me.choicore.samples.charge.domain
 
-import me.choicore.samples.charge.domain.ChargingMode.Surcharge
+import me.choicore.samples.charge.domain.core.ChargingMode.Surcharge
+import me.choicore.samples.charge.domain.core.TimeSlot
+import me.choicore.samples.charge.domain.core.Timeline
+import me.choicore.samples.charge.domain.strategy.CompositeChargingStrategies
+import me.choicore.samples.charge.domain.strategy.DayOfWeekChargingStrategy
+import me.choicore.samples.charge.domain.strategy.SpecifiedDateChargingStrategy
+import me.choicore.samples.charge.domain.target.ChargingUnit
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.time.LocalTime

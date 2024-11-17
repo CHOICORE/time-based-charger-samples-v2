@@ -1,9 +1,9 @@
 package me.choicore.samples.charge.presentation.dto.request
 
-import me.choicore.samples.charge.domain.ChargingMethod
-import me.choicore.samples.charge.domain.DayOfWeekChargingStrategies
-import me.choicore.samples.charge.domain.DayOfWeekChargingStrategy
-import me.choicore.samples.charge.domain.Timeline
+import me.choicore.samples.charge.domain.core.ChargingMethod
+import me.choicore.samples.charge.domain.core.Timeline
+import me.choicore.samples.charge.domain.strategy.DayOfWeekChargingStrategies
+import me.choicore.samples.charge.domain.strategy.DayOfWeekChargingStrategy
 import me.choicore.samples.charge.presentation.dto.TimeSlotDto
 import java.time.DayOfWeek
 
