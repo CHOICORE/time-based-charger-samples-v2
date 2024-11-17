@@ -1,22 +1,12 @@
-package me.choicore.samples.charge.application
+package me.choicore.samples.charge.domain
 
-import me.choicore.samples.charge.domain.ChargeRequest
-import me.choicore.samples.charge.domain.ChargingContext
-import me.choicore.samples.charge.domain.ChargingEvaluator
-import me.choicore.samples.charge.domain.ChargingStationSelector
-import me.choicore.samples.charge.domain.ChargingStationSelectorProvider
-import me.choicore.samples.charge.domain.ChargingTarget
-import me.choicore.samples.charge.domain.ChargingTargetReader
-import me.choicore.samples.charge.domain.SpecifiedDateChargingStrategies
-import me.choicore.samples.charge.domain.SpecifiedDateChargingStrategy
-import me.choicore.samples.charge.domain.SpecifiedDateChargingStrategyReader
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Service
-class MissingChargeBatchProcessor(
+class ChargingMeter(
     private val chargingStationSelectorProvider: ChargingStationSelectorProvider,
     private val specifiedDateChargingStrategyReader: SpecifiedDateChargingStrategyReader,
     private val chargingTargetReader: ChargingTargetReader,
@@ -48,7 +38,7 @@ class MissingChargeBatchProcessor(
             }
 
             totalSize += chargingTargets.size
-            log.info("Current charging session size: $totalSize (Previous size: $previousSize)")
+            log.debug("Current charging session size: $totalSize (Previous size: $previousSize)")
 
             if (totalSize == previousSize) {
                 throw IllegalStateException("Infinite loop detected! Charging session size is not increasing.")
@@ -98,16 +88,6 @@ class MissingChargeBatchProcessor(
     }
 
     companion object {
-        private val log: Logger = LoggerFactory.getLogger(MissingChargeBatchProcessor::class.java)
+        private val log: Logger = LoggerFactory.getLogger(ChargingMeter::class.java)
     }
 }
-//        val chargingTargets: List<ChargingTarget> =
-//            chargingTargetReader.getChargingTargetsByComplexIdAndChargedOn(
-//                complexId = complexId,
-//                chargedOn = chargedOn,
-//            )
-//
-//        for (chargingTarget: ChargingTarget in chargingTargets) {
-//            val chargeRequest = ChargeRequest(chargingContext, chargingTarget, chargedOn)
-//            chargingEvaluator.evaluate(chargeRequest)
-//        }
