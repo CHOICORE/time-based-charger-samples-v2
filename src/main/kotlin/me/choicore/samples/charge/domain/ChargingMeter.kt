@@ -66,11 +66,8 @@ class ChargingMeter(
             chargingStationSelectorProvider.getChargingStationSelector(complexId = complexId)
         log.debug("ChargingStationSelector retrieved for complex id: $complexId")
 
-        val specifies: List<SpecifiedDateChargingStrategy> =
-            specifiedDateChargingStrategyReader.getSpecifiedDateChargingStrategiesByComplexId(complexId = complexId)
-        log.debug("SpecifiedDateChargingStrategies retrieved for complex id: $complexId, count: ${specifies.size}")
-
-        val specifiedDateChargingStrategies = SpecifiedDateChargingStrategies(specifies)
+        val specifiedDateChargingStrategies: SpecifiedDateChargingStrategies =
+            loadSpecifiedDateChargingStrategies(complexId)
 
         val chargingContext =
             ChargingContext(
@@ -81,6 +78,20 @@ class ChargingMeter(
         log.info("ChargingContext created successfully for complex id: $complexId")
 
         return chargingContext
+    }
+
+    private fun loadSpecifiedDateChargingStrategies(complexId: Long): SpecifiedDateChargingStrategies {
+        val specifies: List<SpecifiedDateChargingStrategy> =
+            specifiedDateChargingStrategyReader.getSpecifiedDateChargingStrategiesByComplexId(complexId = complexId)
+        log.debug("SpecifiedDateChargingStrategies retrieved for complex id: $complexId, count: ${specifies.size}")
+
+        val specifiedDateChargingStrategies: SpecifiedDateChargingStrategies =
+            if (specifies.isEmpty()) {
+                SpecifiedDateChargingStrategies.EMPTY
+            } else {
+                SpecifiedDateChargingStrategies(specifies)
+            }
+        return specifiedDateChargingStrategies
     }
 
     companion object {
