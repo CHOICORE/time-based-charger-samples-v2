@@ -38,7 +38,7 @@ class ChargingTargetRepositoryImpl(
 
     @Transactional
     override fun updateForStatus(chargingTarget: ChargingTarget): ChargingTarget {
-        chargingTargetEntityRepository.charged(
+        chargingTargetEntityRepository.updateForStatus(
             targetId = chargingTarget.targetId,
             status = chargingTarget.status,
             lastChargedOn = chargingTarget.lastChargedOn,

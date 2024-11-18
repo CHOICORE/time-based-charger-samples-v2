@@ -19,6 +19,9 @@ class ChargingUnitEntity(
     val chargedAmount: Long,
     var active: Boolean = true,
     val adjustable: Boolean = true,
+    val adjuster: String? = null,
+    val adjustedAt: LocalDate? = null,
+    val reason: String? = null,
 ) : AutoIncrement() {
     constructor(chargingUnit: ChargingUnit) : this(
         targetId = chargingUnit.targetId,

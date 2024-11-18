@@ -18,14 +18,14 @@ class ChargingUnitRepositoryImpl(
 ) : ChargingUnitRepository {
     @Transactional
     override fun save(unit: ChargingUnit): ChargingUnit {
-        val savedUnit = chargingUnitEntityRepository.save(ChargingUnitEntity(unit))
+        val savedUnit: ChargingUnitEntity = chargingUnitEntityRepository.save(ChargingUnitEntity(unit))
 
-        val detailEntities =
+        val detailEntities: List<ChargingDetailEntity> =
             unit.details.map { detail ->
                 ChargingDetailEntity(savedUnit.id, detail)
             }
 
-        val savedDetails = chargingDetailEntityRepository.saveAll(detailEntities)
+        val savedDetails: List<ChargingDetailEntity> = chargingDetailEntityRepository.saveAll(detailEntities)
 
         return savedUnit.toChargingUnit().apply {
             savedDetails.forEach { detail ->
@@ -41,7 +41,8 @@ class ChargingUnitRepositoryImpl(
     override fun markAsInactiveByTargetIdAndChargedOnGreatThanEqual(
         targetId: Long,
         chargedOn: LocalDate,
+        reason: String,
     ) {
-        chargingUnitEntityRepository.markAsInactiveByTargetIdAndChargedOnGreatThanEqual(targetId, chargedOn)
+        chargingUnitEntityRepository.markAsInactiveByTargetIdAndChargedOnGreatThanEqual(targetId, chargedOn, reason)
     }
 }

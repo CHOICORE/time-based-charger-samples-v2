@@ -9,6 +9,7 @@ package me.choicore.samples.charge.domain.core
  * - CHARGING: 충전 중
  * - CHARGED: 충전 완료
  * - EXEMPTED: 면제
+ * - CALIBRATED: 보정
  */
 enum class ChargingStatus {
     REGISTERED,
@@ -17,4 +18,5 @@ enum class ChargingStatus {
     CHARGING,
     CHARGED,
     EXEMPTED,
+    CALIBRATED,
 }

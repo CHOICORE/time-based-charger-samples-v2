@@ -34,12 +34,14 @@ data class ChargingTarget(
      * 다음 청구 날짜
      */
     val nextChargedOn: LocalDate
-        get() =
-            if (this.lastChargedOn == null) {
+        get() {
+            return if (lastChargedOn == null || status == PENDED
+            ) {
                 this.arrivedOn
             } else {
                 this.lastChargedOn!!.plusDays(1)
             }
+        }
 
     /**
      * 청구 상태 변경 (충전 중, 충전 완료)
@@ -49,8 +51,24 @@ data class ChargingTarget(
         this.status = if (this.departedOn == chargedOn) ChargingStatus.CHARGED else ChargingStatus.CHARGING
     }
 
+    /**
+     * 청구 상태 변경 (중단)
+     */
     fun aborted() {
         this.status = ChargingStatus.ABORTED
+    }
+
+    /**
+     * 청구 상태 변경 (보정)
+     */
+    fun calibrated() {
+        if (this.departedOn == null) {
+            this.lastChargedOn = null
+        } else {
+            this.lastChargedOn = departedOn.minusDays(1)
+        }
+
+        this.status = ChargingStatus.CALIBRATED
     }
 
     /**

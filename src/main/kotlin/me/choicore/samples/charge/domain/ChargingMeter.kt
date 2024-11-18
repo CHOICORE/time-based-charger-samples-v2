@@ -27,14 +27,11 @@ class ChargingMeter(
         val chargingContext: ChargingContext = createChargingContext(complexId)
         val chunk = 1000
         var chargingTargets: List<ChargingTarget>
-        var totalSize = 0
-        var previousSize = 0
-
         log.info("Starting charging session for complex id: $complexId on $chargedOn")
 
         while (true) {
             chargingTargets =
-                chargingTargetReader.getChargingTargetsByComplexIdAndChargedOn(
+                chargingTargetReader.getChargingTargets(
                     complexId = complexId,
                     chargedOn = chargedOn,
                     size = chunk,
@@ -45,17 +42,8 @@ class ChargingMeter(
                 break
             }
 
-            totalSize += chargingTargets.size
-            log.debug("Current charging session size: $totalSize (Previous size: $previousSize)")
-
-            if (totalSize == previousSize) {
-                throw IllegalStateException("Infinite loop detected! Charging session size is not increasing.")
-            }
-
-            previousSize = totalSize
-
             for (chargingTarget: ChargingTarget in chargingTargets) {
-                log.debug(
+                log.info(
                     "Evaluating charge for target id: ${chargingTarget.targetId}, derived from access id: ${chargingTarget.accessId}",
                 )
                 chargingEvaluator.evaluate(

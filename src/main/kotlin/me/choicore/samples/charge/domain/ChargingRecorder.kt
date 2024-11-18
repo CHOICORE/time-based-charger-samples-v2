@@ -23,6 +23,19 @@ class ChargingRecorder(
     }
 
     @Transactional
+    fun calibrate(target: ChargingTarget) {
+        require(target.status == ChargingStatus.CALIBRATED) {
+            "Target status must be CALIBRATED"
+        }
+
+        chargingUnitRepository.markAsInactiveByTargetIdAndChargedOnGreatThanEqual(
+            target.targetId,
+            target.departedOn!!,
+            target.status.name,
+        )
+    }
+
+    @Transactional
     fun pend(target: ChargingTarget) {
         require(target.status == ChargingStatus.PENDED) {
             "Target status must be Pending"
@@ -39,6 +52,7 @@ class ChargingRecorder(
         chargingUnitRepository.markAsInactiveByTargetIdAndChargedOnGreatThanEqual(
             target.targetId,
             target.arrivedOn,
+            target.status.name,
         )
     }
 }

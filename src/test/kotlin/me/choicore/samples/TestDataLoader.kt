@@ -1,21 +1,21 @@
-package me.choicore.samples.charge.infrastructure.jpa.entity
+package me.choicore.samples
 
-import me.choicore.samples.charge.domain.core.ChargingStatus.REGISTERED
-import me.choicore.samples.charge.domain.target.ChargingTargetCriteria
+import me.choicore.samples.charge.domain.core.ChargingStatus
+import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingTargetEntity
+import me.choicore.samples.charge.infrastructure.jpa.entity.ChargingTargetEntityRepository
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.annotation.Rollback
 import org.springframework.test.context.TestConstructor
-import org.springframework.test.context.TestConstructor.AutowireMode.ALL
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @DataJpaTest
 @Rollback(false)
-@AutoConfigureTestDatabase(replace = NONE)
-@TestConstructor(autowireMode = ALL)
-class ChargingTargetEntityRepositoryTests(
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+class TestDataLoader(
     private val chargingTargetEntityRepository: ChargingTargetEntityRepository,
 ) {
     @Test
@@ -25,7 +25,7 @@ class ChargingTargetEntityRepositoryTests(
         val plateLastNumbers: IntRange = (1000..1010)
         var start: LocalDate = LocalDate.of(2024, 10, 1)
         val end: LocalDate = LocalDate.now()
-        start = end.minusDays(2)
+//        start = end.minusDays(2)
 
 //        chargingTargetEntityRepository.deleteAll()
 //        chargingTargetEntityRepository.save(
@@ -46,7 +46,7 @@ class ChargingTargetEntityRepositoryTests(
 //        )
 //        val plusDays = start.plusDays(1)
         while (start < end) {
-            (1..10)
+            (1..1000)
                 .map {
                     val building = buildings.random()
                     val unit = "${building.substring(0, 1)}${(1..10).random().toString().padStart(2, '0')}"
@@ -67,7 +67,7 @@ class ChargingTargetEntityRepositoryTests(
                         licensePlate = plate,
                         arrivedAt = arrivedAt,
                         departedAt = departedAt,
-                        status = REGISTERED,
+                        status = ChargingStatus.REGISTERED,
                         lastChargedOn = null,
                     )
                 }.run { chargingTargetEntityRepository.saveAll(this) }
@@ -77,13 +77,21 @@ class ChargingTargetEntityRepositoryTests(
 
     @Test
     fun t2() {
-        chargingTargetEntityRepository.findByCriteriaAndDepartedAtIsNullForUpdate(
-            ChargingTargetCriteria(
-                complexId = 1L,
-                building = "100",
-                unit = "A01",
-                licensePlate = "100가1000",
-            ),
-        )
+        val building = "101"
+        val unit = "101"
+        val plate = "123가1234"
+        LocalDateTime.now()
+        var departedAt = null
+
+        ChargingTargetEntity(
+            complexId = 1,
+            building = building,
+            unit = unit,
+            licensePlate = plate,
+            arrivedAt = LocalDate.now().atStartOfDay().minusMinutes(30),
+            departedAt = departedAt,
+            status = ChargingStatus.REGISTERED,
+            lastChargedOn = null,
+        ).also(chargingTargetEntityRepository::save)
     }
 }

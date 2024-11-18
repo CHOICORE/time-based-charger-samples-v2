@@ -1,5 +1,6 @@
 package me.choicore.samples.charge.domain.evaluator
 
+import jakarta.transaction.Transactional
 import me.choicore.samples.charge.domain.ChargeRequest
 import me.choicore.samples.charge.domain.ChargingContext
 import me.choicore.samples.charge.domain.ChargingRecorder
@@ -11,43 +12,67 @@ import org.slf4j.LoggerFactory
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Service
-@Order(2)
+@Order(3)
 class ChargingTargetChargingEvaluator(
     private val chargingRecorder: ChargingRecorder,
 ) : ChargingEvaluator {
+    @Transactional
     override fun evaluate(chargeRequest: ChargeRequest) {
         val (context: ChargingContext, target: ChargingTarget, chargedOn: LocalDate) = chargeRequest
         log.info("Evaluating charge for target: ${target.targetId} on $chargedOn")
 
-        var currentChargedOn: LocalDate = target.nextChargedOn
+        val units: List<ChargingUnit> = chargeTargetUntilFullyCharged(context, target, chargedOn)
 
+        chargingRecorder.record(target = target, units = units)
+
+        log.info("Charging transaction registered for target: ${target.targetId} with ${units.size} units")
+        chargeRequest.processed()
+    }
+
+    private fun chargeTargetUntilFullyCharged(
+        context: ChargingContext,
+        target: ChargingTarget,
+        chargedOn: LocalDate,
+    ): List<ChargingUnit> {
+        calibrateChargingIfNeeded(target = target, chargedOn = chargedOn)
+        var current: LocalDate = target.nextChargedOn
         val units: MutableList<ChargingUnit> = mutableListOf()
+        while (current <= chargedOn) {
+            log.debug("Processing charge on {} for target: {}", current, target.targetId)
 
-        while (currentChargedOn <= chargedOn) {
-            log.debug("Processing charge on {} for target: {}", currentChargedOn, target.targetId)
+            val chargingUnit: ChargingUnit = target.getChargingUnit(chargedOn = current)
+            context.charge(unit = chargingUnit, chargedOn = current)
+            target.charged(chargedOn = current)
+            units.add(element = chargingUnit)
 
-            val chargingUnit: ChargingUnit = target.getChargingUnit(chargedOn = currentChargedOn)
-
-            context.charge(unit = chargingUnit, chargedOn = currentChargedOn)
-
-            target.charged(chargedOn = currentChargedOn)
-
-            units.add(chargingUnit)
-
-            if (target.status == ChargingStatus.CHARGED) {
+            if (target.status == ChargingStatus.CHARGED || target.status == ChargingStatus.CALIBRATED) {
                 log.info("Charging target: ${target.targetId} fully charged. Ending evaluation.")
                 break
             }
 
-            currentChargedOn = currentChargedOn.plusDays(1)
+            current = current.plusDays(1)
         }
 
-        chargingRecorder.record(target = target, units = units)
-        log.info("Charging transaction registered for target: ${target.targetId} with ${units.size} units")
+        return units
+    }
 
-        chargeRequest.processed()
+    private fun calibrateChargingIfNeeded(
+        target: ChargingTarget,
+        chargedOn: LocalDate,
+    ) {
+        if (target.lastChargedOn != null && target.status == ChargingStatus.CHARGING) {
+            val departedAt: LocalDateTime? = target.departedAt
+            val lastChargedOn: LocalDate = target.lastChargedOn!!
+            if (departedAt != null) {
+                if (departedAt <= lastChargedOn.atStartOfDay()) {
+                    log.info("Calibrating charge for target: ${target.targetId} on $chargedOn")
+                    chargingRecorder.calibrate(target = target.apply { this.calibrated() })
+                }
+            }
+        }
     }
 
     companion object {

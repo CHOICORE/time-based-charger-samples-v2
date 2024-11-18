@@ -12,7 +12,7 @@ class ChargingTargetReader(
     fun findByCriteriaAndDepartedAtIsNullForUpdate(criteria: ChargingTargetCriteria): List<ChargingTarget> =
         chargingTargetRepository.findByCriteriaAndDepartedAtIsNullForUpdate(criteria)
 
-    fun getChargingTargetsByComplexIdAndChargedOn(
+    fun getChargingTargets(
         complexId: Long,
         chargedOn: LocalDate,
         size: Int,

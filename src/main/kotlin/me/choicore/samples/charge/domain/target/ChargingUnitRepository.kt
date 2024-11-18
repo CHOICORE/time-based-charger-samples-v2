@@ -10,5 +10,6 @@ interface ChargingUnitRepository {
     fun markAsInactiveByTargetIdAndChargedOnGreatThanEqual(
         targetId: Long,
         chargedOn: LocalDate,
+        reason: String,
     )
 }

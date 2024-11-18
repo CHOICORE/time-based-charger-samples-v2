@@ -24,7 +24,9 @@ data class ChargingUnit(
 
     init {
         require(
-            this.startTime.isBefore(this.endTime) || this.startTime >= TimeUtils.MAX_TIME,
+            this.startTime.isBefore(this.endTime) ||
+                this.startTime >= TimeUtils.MAX_TIME ||
+                this.endTime == LocalTime.MIDNIGHT,
         ) { "The start time must be before the end time." }
     }
 

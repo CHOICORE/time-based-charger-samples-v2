@@ -57,7 +57,7 @@ interface ChargingTargetEntityRepository : JpaRepository<ChargingTargetEntity, L
         where c._id = :id
         """,
     )
-    fun charged(
+    fun updateForStatus(
         @Param("id") targetId: Long,
         @Param("status") status: ChargingStatus,
         @Param("lastChargedOn") lastChargedOn: LocalDate?,
