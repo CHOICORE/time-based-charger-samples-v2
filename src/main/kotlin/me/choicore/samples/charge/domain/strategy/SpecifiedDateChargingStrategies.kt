@@ -17,7 +17,7 @@ class SpecifiedDateChargingStrategies() : AbstractChargingStrategies<LocalDate, 
             return emptyList()
         } else {
             val remainingTimeline: Timeline =
-                Timeline.Companion.remain(super.getOverallTimeSlots(specifiedDateChargingStrategy))
+                super.getRemainingTimeline(super.getOverallTimeSlots(specifiedDateChargingStrategy))
             specifiedDateChargingStrategy.add(
                 SpecifiedDateChargingStrategy(
                     specifiedDate = date,

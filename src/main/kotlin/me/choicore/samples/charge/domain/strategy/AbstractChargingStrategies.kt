@@ -23,7 +23,7 @@ abstract class AbstractChargingStrategies<K : TemporalAdjuster, S : ChargingStra
     protected fun getOverallTimeSlots(strategies: List<S>): List<TimeSlot> = strategies.flatMap { it.timeline.slots }
 
     protected fun getRemainingTimeline(exclusiveTimeSlots: List<TimeSlot>): Timeline =
-        Timeline.Companion.remain(excludedTimeSlots = exclusiveTimeSlots)
+        Timeline.remain(excludedTimeSlots = exclusiveTimeSlots)
 
     protected abstract fun getKeyForDate(date: LocalDate): K
 
