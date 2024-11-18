@@ -1,4 +1,4 @@
-package me.choicore.samples.charge.domain
+package me.choicore.samples.charge.domain.core
 
 import me.choicore.samples.charge.domain.core.ChargingMode.Discharge
 import me.choicore.samples.charge.domain.core.ChargingMode.Standard
