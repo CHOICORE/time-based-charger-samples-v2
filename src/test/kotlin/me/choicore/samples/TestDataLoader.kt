@@ -25,7 +25,7 @@ class TestDataLoader(
         val plateLastNumbers: IntRange = (1000..1010)
         var start: LocalDate = LocalDate.of(2024, 10, 1)
         val end: LocalDate = LocalDate.now()
-//        start = end.minusDays(2)
+        start = end.minusDays(2)
 
 //        chargingTargetEntityRepository.deleteAll()
 //        chargingTargetEntityRepository.save(
@@ -46,7 +46,7 @@ class TestDataLoader(
 //        )
 //        val plusDays = start.plusDays(1)
         while (start < end) {
-            (1..1000)
+            (1..3)
                 .map {
                     val building = buildings.random()
                     val unit = "${building.substring(0, 1)}${(1..10).random().toString().padStart(2, '0')}"

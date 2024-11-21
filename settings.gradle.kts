@@ -1,1 +1,1 @@
-rootProject.name = "settlements"
+rootProject.name = "parking-meter-samples"
