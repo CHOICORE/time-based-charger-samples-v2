@@ -1,0 +1,12 @@
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include:
+          - health
+          - prometheus
+        exclude: shutdown
+    jmx:
+      exposure:
+        exclude: "*"

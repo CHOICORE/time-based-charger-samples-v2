@@ -1,5 +1,8 @@
 spring.application.name: time-based-charger-samples
 spring:
+  config:
+    import: classpath:application-actuator.yaml
+
   devtools:
     restart:
       enabled: false
